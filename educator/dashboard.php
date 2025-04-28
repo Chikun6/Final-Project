@@ -14,8 +14,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'educator') {
     <meta charset="UTF-8">
     <title>Educator Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 
     <style>
         body {
@@ -85,7 +84,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'educator') {
     <h2>SmartLearning</h2>
     <a data-page="dashboard" class="nav-link active"><i class="fas fa-tachometer-alt me-2"></i> Dashboard</a>
     <a data-page="add-course" class="nav-link"><i class="fas fa-plus-circle me-2"></i> Add Course</a>
-    <a data-page="my-courses" class="nav-link"><i class="fas fa-book me-2"></i> My Courses</a>
+    <a data-page="new" class="nav-link"><i class="fas fa-book me-2"></i> My Courses</a>
     <a data-page="enrollments" class="nav-link"><i class="fas fa-users me-2"></i> Enrollments</a>
 </div>
 
@@ -100,6 +99,10 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'educator') {
     </div>
 </div>
 
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js"></script>
 <script>
     function loadPage(page) {
         $('.nav-link').removeClass('active');
@@ -109,6 +112,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'educator') {
             url: `includes/${page}_content.php`,
             method: 'GET',
             success: function(data) {
+                console.log("Received data:", data); 
                 $('#main-content').html(data);
             },
             error: function() {

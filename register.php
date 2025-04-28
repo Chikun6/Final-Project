@@ -146,14 +146,36 @@
         } else if (!email.match(emailPattern)) {
             errMsg = 'Invalid email format.';
             error = true;
-        } else if (password.length < 8 || password.length > 16) {
-            errMsg = 'Password must be between 8 to 16 characters.';
+        }else if (password === "") {
+            errMsg += "Password is required.\n";
             error = true;
-        } else if (password !== confpassword) {
+        }
+        else if (!password.match(/[a-z]/)) {
+            errMsg += "At least one lowercase letter.\n";
+            error = true;
+        }
+        else if (!password.match(/[A-Z]/)) {
+            errMsg += "At least one uppercase letter.\n";
+            error = true;
+        }
+        else if (!password.match(/[0-9]/)) {
+            errMsg += "At least one digit.\n";
+            error = true;
+        }
+        else if (!password.match(/[!@#$%^&*]/)) {
+            errMsg += "At least one special character.\n";
+            error = true;
+        }
+        else if (password.length < 6 || password.length > 15) {
+            errMsg += "Password must be 6 to 15 characters long.\n";
+            error = true;
+        }
+        else if (password !== confpassword) {
             errMsg = 'Passwords do not match.';
             error = true;
         }
 
+    
         if (error) {
             $('#error').text(errMsg).addClass('text-danger');
             return;
@@ -186,8 +208,7 @@
         });
     });
 });
-
-    </script>
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

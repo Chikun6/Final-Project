@@ -1,8 +1,8 @@
 <?php
 if (!isset($_SESSION)) session_start();
 
-$studentName = $_SESSION['student_name'] ?? 'Student';
-$studentProfilePic = $_SESSION['student_pic'] ?? './images/faculty.jpeg'; // Path to default image
+$studentName = $_SESSION['name'] ?? 'Student';
+$studentProfilePic = $_SESSION['image'] ?? './images/faculty.jpeg'; // Path to default image
 ?>
 
 <!DOCTYPE html>
@@ -63,8 +63,8 @@ $studentProfilePic = $_SESSION['student_pic'] ?? './images/faculty.jpeg'; // Pat
             </a>
             <ul class="dropdown-menu dropdown-menu-end shadow rounded-4 border-0 mt-2" aria-labelledby="studentDropdown" style="min-width: 200px;">
               <li><h6 class="dropdown-header text-muted"><?= $studentName ?? 'Student' ?></h6></li>
-              <li><a class="dropdown-item" href="#" id="viewProfile"><i class="bi bi-person me-2"></i>View Profile</a></li>
-              <li><a class="dropdown-item" href="#" id="editProfile"><i class="bi bi-pencil me-2"></i>Edit Profile</a></li>
+              <li><a class="dropdown-item" href="profile.php" id="viewProfile"><i class="bi bi-person me-2"></i>View Profile</a></li>
+              <li><a class="dropdown-item" href="edit_profile" id="editProfile"><i class="bi bi-pencil me-2"></i>Edit Profile</a></li>
               <li><hr class="dropdown-divider"></li>
               <li><a class="dropdown-item text-danger" href="logout.php"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
             </ul>

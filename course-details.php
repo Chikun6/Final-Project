@@ -1,6 +1,13 @@
 <?php
-include 'navbar.php';
 include 'db_connect.php';
+session_start();
+
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'student') {
+  include_once 'navbar.php';
+}else{
+  include_once 'student_navbar.php';
+}
+
 
 $course_id = $_GET['id'] ?? 0;
 
@@ -89,7 +96,7 @@ $chapters_result = $chapters_query->get_result();
 <body>
 
 <div class="container course-detail-container">
-  <a href="courses.php" class="btn btn-sm btn-outline-secondary mb-3">← Back to Courses</a>
+  <a href="index.php" class="btn btn-sm btn-outline-secondary mb-3">← Back to Courses</a>
 
   <div class="row g-4">
     <!-- Left Panel -->

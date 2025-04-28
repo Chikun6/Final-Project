@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Execute query
         if ($stmt->execute()) {
             echo 'Course added successfully!';
-            header('Location: course-list.php'); // Redirect to course list or course detail page
+            header('Location: ../dashboard.php'); // Redirect to course list or course detail page
         } else {
             echo 'Error adding course: ' . $stmt->error;
         }

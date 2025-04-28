@@ -13,15 +13,37 @@ if (isset($_POST['name'], $_POST['email'], $_POST['password'], $_POST['role'])) 
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
     $otp = rand(100000, 999999);
     $otp_expires_at = date("Y-m-d H:i:s", strtotime("+30 minutes"));
-    $profile_pic = 'uploads/default.png';
 
-    // Optional: Handle profile picture
-    if (!empty($_FILES['profile_pic']['name'])) {
-        $target_dir = "uploads/";
-        $target_file = $target_dir . basename($_FILES["profile_pic"]["name"]);
-        if (move_uploaded_file($_FILES["profile_pic"]["tmp_name"], $target_file)) {
-            $profile_pic = $target_file;
+    // Handle file upload for course thumbnail
+    if (isset($_FILES['image'])) {
+        $fileTmpPath = $_FILES['image']['tmp_name'];
+        $fileName = $_FILES['image']['name'];
+        $fileSize = $_FILES['image']['size'];
+        $fileType = $_FILES['image']['type'];
+        $fileNameCmps = explode(".", $fileName);
+        $fileExtension = strtolower(end($fileNameCmps));
+
+        // Define the upload directory
+        $uploadFileDir = 'uploads/';
+        $dest_path = $uploadFileDir . uniqid() . '.' . $fileExtension;
+
+        // Validate file type (only images allowed)
+        $allowedExts = ['jpg', 'jpeg', 'png', 'gif'];
+        if (in_array($fileExtension, $allowedExts)) {
+            // Move the uploaded file to the destination folder
+            if (move_uploaded_file($fileTmpPath, $dest_path)) {
+                $profile_pic = $dest_path; // Path for the thumbnail
+            } else {
+                echo 'Error uploading file!';
+                exit;
+            }
+        } else {
+            echo 'Invalid file type. Only images are allowed.';
+            exit;
         }
+    } else {
+        echo 'No thumbnail uploaded.';
+        exit;
     }
 
     // Check if user already exists

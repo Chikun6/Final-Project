@@ -10,6 +10,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'student') {
 
 $userId = $_SESSION['user_id'];
 $studentName = $_SESSION['name'];
+$studentProfilePic = $_SESSION['image'];
 
 // Get filter
 $status = $_POST['status'] ?? '';
