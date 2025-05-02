@@ -1,12 +1,13 @@
+
+
 <?php
 session_start();
-$educatorId = $_SESSION['user_id']; // Adjust as necessary
-
 require_once './../../db_connect.php';
 
-$query = "SELECT * FROM courses WHERE educator_id = ?";
+$educator_id = $_SESSION['user_id'];
+$query = "SELECT id, title FROM courses WHERE educator_id = ?";
 $stmt = $conn->prepare($query);
-$stmt->bind_param("i", $educatorId);
+$stmt->bind_param("i", $educator_id);
 $stmt->execute();
 $result = $stmt->get_result();
 ?>
@@ -73,7 +74,6 @@ $result = $stmt->get_result();
     <?php endwhile; ?>
 </div>
 
-<?php $course = $result->fetch_assoc(); ?>
 <!-- modal for lecture  -->
 <!-- Add Lecture Modal -->
 <div class="modal fade" id="lectureModal" tabindex="-1" aria-labelledby="lectureModalLabel" aria-hidden="true">
@@ -104,7 +104,7 @@ $result = $stmt->get_result();
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" onclick="submitLecture(<?= htmlspecialchars($course['id'], ENT_QUOTES, 'UTF-8') ?>)">Save Lecture</button>
+        <button type="button" class="btn btn-primary" onclick="submitLecture()">Save Lecture</button>
       </div>
     </div>
   </div>
@@ -155,8 +155,267 @@ $result = $stmt->get_result();
     </div>
 </div>
 
-
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js"></script>
-<script src = "./includes/course.js"></script>
+
+<script>
+
+function toggleChapter(button) {
+    const container = button.closest('.course-card');
+    const list = container.querySelector('.chapter-list');
+    list.style.display = list.style.display === 'none' ? 'block' : 'none';
+}
+
+function openChapterModals(courseId) {
+    document.getElementById("courseId").value = courseId;
+    const chapterModal = new bootstrap.Modal(document.getElementById("chapterModal"));
+    chapterModal.show();
+}
+
+function closeChapterModal() {
+    const chapterModal = new bootstrap.Modal(document.getElementById("chapterModal"));
+    chapterModal.hide();
+}
+
+function saveChapter() {
+    const lectures = []; // Array to hold lecture objects
+    const courseId = $("#courseId").val().trim();
+    const chapterName = $("#chapterName").val().trim();
+    const lectureTitle = $("#lectureTitle").val().trim();
+    const lectureDuration = $("#lectureDuration").val().trim();
+    const lectureVideo = $("#lectureVideo")[0].files[0]; // Video file
+    const preview = $("#lecturePreview").is(":checked"); // Preview checkbox
+
+    console.log("courseId:", courseId);
+    console.log("chapterName:", chapterName);
+    console.log("lectureTitle:", lectureTitle);
+    console.log("lectureDuration:", lectureDuration);
+    console.log("lectureVideo:", lectureVideo);
+    console.log("preview:", preview);
+
+    // Validation
+    if (!chapterName || !lectureTitle || !lectureDuration || !lectureVideo) {
+        showToast("All fields are required!", "danger");
+        return;
+    }
+
+    // Push lecture details
+    lectures.push({
+        title: lectureTitle,
+        duration: lectureDuration,
+        is_preview: preview
+    });
+
+    const formData = new FormData();
+    formData.append("course_id", courseId);
+    formData.append("chapter_name", chapterName);
+    formData.append("lectures", JSON.stringify(lectures));
+
+    if (lectureVideo) {
+        formData.append("video_file", lectureVideo);
+    }
+
+    $.ajax({
+        url: "./includes/save_chapter_backend.php",
+        type: "POST",
+        data: formData,
+        processData: false, // Prevent jQuery from processing the data
+        contentType: false, // Prevent jQuery from setting content type
+        dataType: "json",   // Expect JSON response
+        success: function(response) {
+            console.log(response);
+            if (response.success) {
+                showToast(response.message, "success");
+            } else {
+                showToast(response.message, "danger");
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error("AJAX Error:", error);
+            showToast("An error occurred. Please try again.", "danger");
+        }
+    });
+}
+
+
+function showToast(message, type = "success") {
+    const toast = document.getElementById("toastContainer");
+    toast.querySelector(".toast-body").innerText = message;
+    toast.classList.remove("bg-success", "bg-danger");
+    toast.classList.add(`bg-${type}`);
+    const bsToast = new bootstrap.Toast(toast);
+    bsToast.show();
+}
+
+function editChapterName() {
+    const newName = prompt("Edit chapter name:", chapters[0].name);
+    if (newName) {
+        chapters[0].name = newName;
+        renderChapters();
+    }
+}
+
+function deleteChapterLocal() {
+    if (confirm("Are you sure you want to delete the chapter?")) {
+        chapters = [];
+        $('#chapterName').val('');
+        $('#chapterList').html('');
+    }
+}
+
+function editLectureLocal(index) {
+    const lecture = chapters[0].lectures[index];
+    const newTitle = prompt("Edit Lecture Title:", lecture.title);
+    const newDuration = prompt("Edit Duration (mins):", lecture.duration);
+    const newUrl = prompt("Edit Video URL:", lecture.url);
+    const newPreview = confirm("Mark as preview? (OK = Yes, Cancel = No)");
+
+    if (newTitle && newDuration && newUrl) {
+        chapters[0].lectures[index] = { title: newTitle, duration: newDuration, url: newUrl, preview: newPreview };
+        renderChapters();
+    }
+}
+
+function deleteLectureLocal(index) {
+    if (!chapters[0] || !chapters[0].lectures || !chapters[0].lectures[index]) {
+        alert("Lecture not found.");
+        return;
+    }
+
+    if (confirm("Are you sure you want to delete this lecture?")) {
+        chapters[0].lectures.splice(index, 1);
+
+        if (chapters[0].lectures.length === 0) {
+            chapters = [];
+        }
+
+        renderChapters();
+    }
+}
+
+
+function editLecture(id) {
+    alert("Editing saved lecture is not implemented. Please delete and re-add.");
+}
+
+function deleteLectureBackend(id) {
+    if (confirm("Are you sure you want to delete this lecture?")) {
+        $.post('./includes/delete_lecture.php', { lecture_id: id }, function(response) {
+            alert(response);
+            $('#mainContent').load('../dashboard.php?' + new Date().getTime());
+        });
+    }
+}
+
+function deleteChapterBackend(id) {
+    if (confirm("Are you sure you want to delete this chapter?")) {
+        $.post('./includes/delete_chapter.php', { chapter_id: id }, function(response) {
+            alert(response);
+            $('#mainContent').load('../dashboard.php?' + new Date().getTime());
+        });
+    }
+}
+
+
+function openLectureModal(chapterId, chapterName) {
+    $('#currentChapterId').val(chapterId); // Save chapter ID in hidden field
+    $('#lectureTitle1, #lectureDuration1').val('');
+    $('#lectureVideo1').val('');
+    $('#lecturePreview1').prop('checked', false);
+    $('#lectureModalLabel').text("Add Lecture to " + chapterName);
+    $('#lectureModal').modal('show');
+}
+
+// Close the lecture modal
+function closeLectureModal() {
+    $('#lectureModal').hide(); // Hide the modal
+}
+
+function submitLecture() {
+    const chapterId = $('#currentChapterId').val();
+    addLecture(chapterId); // Call your existing upload function
+}
+
+
+function addLecture(chapterId) {
+    const title = $('#lectureTitle1').val().trim();
+    const duration = $('#lectureDuration1').val().trim();
+    const videoFile = $('#lectureVideo1')[0].files[0];
+    const preview = $('#lecturePreview1').is(':checked') ? 1 : 0;
+
+    if (!title || !duration || !videoFile) {
+        alert("Please fill all fields and select a video.");
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("duration", duration);
+    formData.append("video_file", videoFile); // Correct key for PHP $_FILES
+    formData.append("preview", preview);
+    formData.append("chapter_id", chapterId);
+
+    $.ajax({
+        url: './includes/upload_lecture.php',
+        type: 'POST',
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function (res) {
+            let result;
+            try {
+                result = typeof res === "string" ? JSON.parse(res) : res;
+            } catch (e) {
+                alert("Unexpected server response.");
+                console.error("Parse error:", res);
+                return;
+            }
+
+            if (result.status === "success") {
+                alert(result.message);
+                $('#lectureModal').modal('hide');
+                $('#lectureTitle1, #lectureDuration1').val('');
+                $('#lectureVideo1').val('');
+                $('#lecturePreview1').prop('checked', false);
+                refreshLectures(chapterId); // ✅ Refresh lecture list
+            } else {
+                alert(result.message);
+            }
+        },
+        error: function () {
+            alert("AJAX error. Try again.");
+        }
+    });
+}
+
+function refreshLectures(chapterId) {
+    $.ajax({
+        url: './includes/get_lectures.php',
+        type: 'GET',
+        data: { chapter_id: chapterId },
+        success: function (html) {
+            $('#lecture-list-' + chapterId).html(html);
+        },
+        error: function () {
+            console.error("Failed to refresh lecture list.");
+        }
+    });
+}
+   
+
+
+</script>
+
+<style>
+.modal-backdrop {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1050;
+}
+</style>

@@ -32,7 +32,7 @@ if (!$insertChapter->execute()) {
 $chapterId = $insertChapter->insert_id;
 
 // Handle file upload
-$uploadDir = "../uploads/videos/";
+$uploadDir = "uploads/videos/";
 if (!file_exists($uploadDir)) {
     mkdir($uploadDir, 0777, true);
 }

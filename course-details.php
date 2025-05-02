@@ -1,17 +1,25 @@
 <?php
 include 'db_connect.php';
-session_start();
+session_start(); // make sure this is at the top
 
+$course_id = $_GET['id'] ?? 0;  // ✅ Move this up
+$student_id = $_SESSION['user_id'] ?? 0;
+$enrolled = false;
+
+// Navigation based on session
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'student') {
   include_once 'navbar.php';
-}else{
+} else {
   include_once 'student_navbar.php';
+
+  // ✅ Enrollment check AFTER $course_id is defined
+  $enroll_check = $conn->prepare("SELECT * FROM enrollments WHERE student_id = ? AND course_id = ?");
+  $enroll_check->bind_param("ii", $student_id, $course_id);
+  $enroll_check->execute();
+  $enrolled = $enroll_check->get_result()->num_rows > 0;
 }
 
-
-$course_id = $_GET['id'] ?? 0;
-
-// Fetch course with instructor name
+// ✅ Course and chapter queries
 $course_query = $conn->prepare("
   SELECT courses.*, users.name AS instructor_name 
   FROM courses 
@@ -28,6 +36,7 @@ $chapters_query->bind_param("i", $course_id);
 $chapters_query->execute();
 $chapters_result = $chapters_query->get_result();
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -142,7 +151,6 @@ $chapters_result = $chapters_query->get_result();
 
         
         <p><strong>Category:</strong> <?= htmlspecialchars($course['category'] ?? 'N/A') ?></p>
-        <!-- <p><strong>Rating:</strong> ⭐ <?= number_format($course['rating'], 1) ?>/5</p> -->
         <p><strong>Level:</strong> <?= htmlspecialchars($course['level'] ?? 'All Levels') ?></p>
         <p><strong>Created On:</strong> <?= date('d M Y', strtotime($course['created_at'])) ?></p>
         <p><strong>Created By :</strong> <?= htmlspecialchars($course['instructor_name']) ?></p>
@@ -159,61 +167,92 @@ $chapters_result = $chapters_query->get_result();
           <?php endif; ?>
         </div>
 
-        <a href="enroll.php?course_id=<?= $course_id ?>" class="btn btn-primary enroll-btn w-100">Enroll Now</a>
-
-        <!-- Chapters -->
-        
+        <!-- Enrollment Form -->
+        <?php if (!$enrolled): ?>
+          <form method="POST" action="enrollment.php">
+            <input type="hidden" name="course_id" value="<?= $course_id ?>">
+            <button type="submit" class="btn btn-primary w-100">Enroll Now</button>
+          </form>
+        <?php else: ?>
+          <button class="btn btn-outline-success w-100" disabled>Already Enrolled</button>
+        <?php endif; ?>
       </div>
     </div>
 
-    <!-- Right Panel: Video Player -->
-    <!-- Right side: Video Player + Chapters & Lectures -->
-<div class="col-md-7">
-  <div class="card p-4 mb-3">
-    <h5 class="mb-3">🎬 Lecture Viewer</h5>
-    <video id="videoPlayer" class="video-player" controls>
-      <source src="videos\5495890-hd_1080_1920_30fps.mp4" type="video/mp4">
-      Your browser does not support the video tag.
-    </video>
-  </div>
-
-  <div class="card p-3">
-    <h5>📚 Course Content</h5>
-    <?php 
-    $chapters_query->execute();
-    $chapters_result = $chapters_query->get_result();
-    while($chapter = $chapters_result->fetch_assoc()): ?>
-      <div class="mb-2">
-        <strong><?= htmlspecialchars($chapter['title']) ?></strong>
-        <?php
-        $chapter_id = $chapter['id'];
-        $lectures_query = $conn->prepare("SELECT * FROM lectures WHERE chapter_id = ?");
-        $lectures_query->bind_param("i", $chapter_id);
-        $lectures_query->execute();
-        $lectures_result = $lectures_query->get_result();
-        ?>
-        <ul class="list-group mt-1">
-          <?php while ($lecture = $lectures_result->fetch_assoc()): ?>
-            <li class="list-group-item lecture-item" style="cursor: pointer;" onclick="playLecture('<?= htmlspecialchars($lecture['video_path']) ?>')">
-              <?= htmlspecialchars($lecture['title']) ?> (<?= htmlspecialchars($lecture['type']) ?>)
-            </li>
-          <?php endwhile; ?>
-        </ul>
+    <!-- Right Panel: Video Player + Chapters & Lectures -->
+    <div class="col-md-7">
+      <div class="card p-4 mb-3">
+        <h5 class="mb-3">🎬 Lecture Viewer</h5>
+        <video id="videoPlayer" class="video-player" controls>
+          <source src="videos/5495890-hd_1080_1920_30fps.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
       </div>
-    <?php endwhile; ?>
+
+      <div class="card p-3">
+        <h5>📚 Course Content</h5>
+        <div class="accordion" id="courseContent">
+          <?php 
+          $chapterIndex = 0;
+          while($chapter = $chapters_result->fetch_assoc()): 
+              $chapter_id = $chapter['id'];
+              $lectures_query = $conn->prepare("SELECT * FROM lectures WHERE chapter_id = ?");
+              $lectures_query->bind_param("i", $chapter_id);
+              $lectures_query->execute();
+              $lectures_result = $lectures_query->get_result();
+          ?>
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="heading<?= $chapterIndex ?>">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<?= $chapterIndex ?>">
+                  <?= htmlspecialchars($chapter['chapter_name']) ?>
+                </button>
+              </h2>
+              <div id="collapse<?= $chapterIndex ?>" class="accordion-collapse collapse" data-bs-parent="#courseContent">
+                <div class="accordion-body">
+                  <ul class="list-group mt-1">
+                    <?php while ($lecture = $lectures_result->fetch_assoc()): ?>
+                      <li class="list-group-item lecture-item d-flex justify-content-between align-items-center">
+                        <?= htmlspecialchars($lecture['title']) ?>
+                        <button 
+                          class="btn btn-sm <?= $enrolled ? 'btn-outline-success' : 'btn-outline-secondary' ?>"
+                          <?= $enrolled ? "onclick=\"playLecture('".htmlspecialchars($lecture['video_url'])."')\"" : '' ?>>
+                          <?= $enrolled ? 'Watch' : '🔒 Locked' ?>
+                        </button>
+                      </li>
+                    <?php endwhile; ?>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          <?php 
+            $chapterIndex++;
+          endwhile; 
+          ?>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
+<!-- Toast Notification -->
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1050">
+  <div id="enrollToast" class="toast align-items-center text-white bg-success border-0" role="alert">
+    <div class="d-flex">
+      <div class="toast-body">
+        🎉 Successfully enrolled in the course!
+      </div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+    </div>
   </div>
 </div>
 
 <script>
-  function playLecture(videoPath) {
+function playLecture(videoPath) {
     const player = document.getElementById("videoPlayer");
-    player.src = "videos/" + videoPath;
+    player.src = "educator/" + videoPath;
     player.load();
     player.play();
-  }
+}
 </script>
 
 <?php include 'footer.php'; ?>

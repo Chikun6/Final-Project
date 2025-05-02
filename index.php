@@ -106,6 +106,16 @@
             line-height: 1.5;
             margin-bottom: 15px;
         }
+        .price-tag {
+        font-size: 20px;
+        color: green;
+        }
+
+        .old-price {
+        text-decoration: line-through;
+        color: red;
+        }
+
         .quote-mark {
             position: absolute;
             top: -15px;
@@ -145,7 +155,18 @@
                 <div class="card-body d-flex flex-column">
                     <h5 class="card-title"><?= htmlspecialchars($course['title']) ?></h5>
                     <p class="card-text text-muted small"><?= substr(htmlspecialchars($course['description']), 0, 100) ?>...</p>
-                    <p class="mt-auto"><strong>Price:</strong> ₹<?= $course['price'] ?></p>
+                    <div class="mt-2">
+                        <strong>Price:</strong>
+                        <?php if (!empty($course['discount']) && $course['discount'] > 0): 
+                            $discounted = $course['price'] - ($course['price'] * $course['discount'] / 100);
+                        ?>
+                            <span class="price-tag">₹<?= $discounted ?></span>
+                            <span class="discount"><?= $course['discount'] ?>%</span>
+                            <span class="old-price">₹<?= $course['price'] ?></span>
+                        <?php else: ?>
+                            <span class="price-tag">₹<?= $course['price'] ?></span>
+                        <?php endif; ?>
+                    </div>
                     <a href="course-details.php?id=<?= $course['id'] ?>" class="btn btn-primary w-100 mt-2">View Course</a>
                 </div>
                 </div>

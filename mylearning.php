@@ -1,5 +1,5 @@
 <?php
-session_start();
+include_once 'student_navbar.php';
 require_once 'db_connect.php';
 
 
@@ -69,47 +69,7 @@ $result = $stmt->get_result();
   </style>
 </head>
 <body>
-<header>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm fixed-top">
-    <div class="container">
-      <!-- Brand -->
-      <a class="navbar-brand fw-bold" href="#">
-        <img src="./images/logoupdate.png" alt="Logo" style="height: 40px;" class="me-2">
-        SmartLearning
-      </a>
 
-      <!-- Toggler -->
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <!-- Navbar items -->
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav ms-auto align-items-center">
-
-          <!-- My Learning Button -->
-          <li class="nav-item me-3">
-            <a class="btn btn-outline-primary" href="mylearning.php">My Learning</a>
-          </li>
-
-          <!-- Profile Dropdown -->
-          <li class="nav-item dropdown">
-            <a class="nav-link d-flex align-items-center" href="#" id="studentDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-              <img src="<?= $studentProfilePic ?>" alt="Profile" class="rounded-circle" width="36" height="36" style="object-fit: cover;">
-            </a>
-            <ul class="dropdown-menu dropdown-menu-end shadow rounded-4 border-0 mt-2" aria-labelledby="studentDropdown" style="min-width: 200px;">
-              <li><h6 class="dropdown-header text-muted"><?= $studentName ?? 'Student' ?></h6></li>
-              <li><a class="dropdown-item" href="#" id="viewProfile"><i class="bi bi-person me-2"></i>View Profile</a></li>
-              <li><a class="dropdown-item" href="#" id="editProfile"><i class="bi bi-pencil me-2"></i>Edit Profile</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item text-danger" href="logout.php"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
-            </ul>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-</header>
 <!-- Push content below navbar -->
 <div style="margin-top: 50px;"></div>
 
@@ -132,7 +92,7 @@ $result = $stmt->get_result();
         <?php while ($course = $result->fetch_assoc()): ?>
           <div class="col-md-4 mb-4">
             <div class="card h-100 shadow-sm course-card">
-              <img src="<?= $course['thumbnail'] ?>" class="card-img-top" style="height: 180px; object-fit: cover;">
+              <img src="./educator/<?= $course['thumbnail'] ?>" class="card-img-top" style="height: 180px; object-fit: cover;">
               <div class="card-body">
                 <h5 class="card-title"><?= htmlspecialchars($course['title']) ?></h5>
                 <p class="card-text text-muted mb-1">Educator: <?= htmlspecialchars($course['educator_name']) ?></p>

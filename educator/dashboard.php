@@ -84,7 +84,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'educator') {
     <h2>SmartLearning</h2>
     <a data-page="dashboard" class="nav-link active"><i class="fas fa-tachometer-alt me-2"></i> Dashboard</a>
     <a data-page="add-course" class="nav-link"><i class="fas fa-plus-circle me-2"></i> Add Course</a>
-    <a data-page="new" class="nav-link"><i class="fas fa-book me-2"></i> My Courses</a>
+    <a data-page="mycourses" class="nav-link"><i class="fas fa-book me-2"></i> My Courses</a>
     <a data-page="enrollments" class="nav-link"><i class="fas fa-users me-2"></i> Enrollments</a>
 </div>
 

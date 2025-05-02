@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $fileExtension = strtolower(end($fileNameCmps));
 
         // Define the upload directory
-        $uploadFileDir = '../uploads/';
+        $uploadFileDir = 'uploads/';
         $dest_path = $uploadFileDir . uniqid() . '.' . $fileExtension;
 
         // Validate file type (only images allowed)
