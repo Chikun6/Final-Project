@@ -18,7 +18,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Smart Learning</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">  
     <style>
         body {
             background: linear-gradient(to bottom, #e3f2fd, #ffffff);
@@ -124,6 +125,28 @@
             color: #007bff;
             font-family: serif;
             opacity: 0.2;
+        }
+    </style>
+    <style>
+        .chat-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 24px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            z-index: 1000;
+            transition: background-color 0.3s;
+        }
+
+        .chat-button:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
@@ -292,6 +315,18 @@
         </button>
     </div>
 </div>
+<button class="chat-button" type="button" data-toggle="modal" data-target=".bd-example-modal-lg">
+        <i class="fas fa-comment-alt"></i>
+    </button>
+
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                
+            </div>
+        </div>
+    </div>
 
 
 <?php
@@ -318,13 +353,48 @@ require_once 'footer.php';
             document.getElementById("closebutton").classList.add("d-none");
         }
       
-            const card = document.getElementById('card1');
-            card.addEventListener('click', () => {
-                window.location.href = "cources.php";
-            });
+            // const card = document.getElementById('card1');
+            // card.addEventListener('click', () => {
+            //     window.location.href = "cources.php";
+            // });
+            const chatBox = document.getElementById("chat-box");
+const userInput = document.getElementById("userInput");
+
+async function sendMessage() {
+    const message = userInput.value.trim();
+    if (!message) return;
+  
+    appendMessage("user", message);
+    userInput.value = "";
+  
+    try {
+      const response = await fetch("gemini_proxy.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message }),
+      });
+  
+      const data = await response.json();
+      console.log("Gemini raw response:", data);
+      const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || "Sorry, I didn't get that.";
+      appendMessage("bot", reply);
+    } catch (err) {
+      appendMessage("bot", "Error: " + err.message);
+    }
+  }
+
+  function appendMessage(sender, text) {
+    const messageDiv = document.createElement("div");
+    messageDiv.className = `message ${sender}`;
+    messageDiv.textContent = text;
+    chatBox.appendChild(messageDiv);
+    chatBox.scrollTop = chatBox.scrollHeight;
+  }
+  
     
     </script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- <script src="script.js"></script> -->
         <!-- Bootstrap JS Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
