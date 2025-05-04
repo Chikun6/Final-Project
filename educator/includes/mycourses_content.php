@@ -337,7 +337,6 @@ function submitLecture() {
     addLecture(chapterId); // Call your existing upload function
 }
 
-
 function addLecture(chapterId) {
     const title = $('#lectureTitle1').val().trim();
     const duration = $('#lectureDuration1').val().trim();
@@ -356,6 +355,10 @@ function addLecture(chapterId) {
     formData.append("preview", preview);
     formData.append("chapter_id", chapterId);
 
+    console.log("Chapter ID:", chapterId);
+    console.log("Title:", title);
+    console.log("Video File:", videoFile);
+
     $.ajax({
         url: './includes/upload_lecture.php',
         type: 'POST',
@@ -363,12 +366,13 @@ function addLecture(chapterId) {
         contentType: false,
         processData: false,
         success: function (res) {
+            console.log("Raw response:", res);
             let result;
             try {
                 result = typeof res === "string" ? JSON.parse(res) : res;
             } catch (e) {
-                alert("Unexpected server response.");
-                console.error("Parse error:", res);
+                alert("Unexpected server response (invalid JSON).");
+                console.error("JSON parse error:", res);
                 return;
             }
 
@@ -378,16 +382,18 @@ function addLecture(chapterId) {
                 $('#lectureTitle1, #lectureDuration1').val('');
                 $('#lectureVideo1').val('');
                 $('#lecturePreview1').prop('checked', false);
-                refreshLectures(chapterId); // ✅ Refresh lecture list
+                refreshLectures(chapterId);
             } else {
                 alert(result.message);
             }
         },
-        error: function () {
-            alert("AJAX error. Try again.");
+        error: function (xhr, status, error) {
+            console.error("AJAX Error:", xhr.responseText || error);
+            alert("AJAX error. Server says: " + (xhr.responseText || error));
         }
     });
 }
+
 
 function refreshLectures(chapterId) {
     $.ajax({

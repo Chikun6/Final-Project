@@ -249,7 +249,7 @@ $chapters_result = $chapters_query->get_result();
 <script>
 function playLecture(videoPath) {
     const player = document.getElementById("videoPlayer");
-    player.src = "educator/" + videoPath;
+    player.src = "educator/includes/" + videoPath;
     player.load();
     player.play();
 }

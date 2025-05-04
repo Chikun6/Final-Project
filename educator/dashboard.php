@@ -112,7 +112,6 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'educator') {
             url: `includes/${page}_content.php`,
             method: 'GET',
             success: function(data) {
-                console.log("Received data:", data); 
                 $('#main-content').html(data);
             },
             error: function() {

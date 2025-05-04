@@ -20,8 +20,13 @@ if ($check->get_result()->num_rows === 0) {
     exit;
 }
 
-// Course info
-$courseStmt = $conn->prepare("SELECT title FROM courses WHERE id = ?");
+// Course info with educator name
+$courseStmt = $conn->prepare("
+    SELECT c.title AS title, u.name AS educator_name
+    FROM courses c
+    JOIN users u ON c.educator_id = u.id
+    WHERE c.id = ?
+");
 $courseStmt->bind_param('i', $courseId);
 $courseStmt->execute();
 $course = $courseStmt->get_result()->fetch_assoc();
@@ -42,13 +47,14 @@ if ($lectureId) {
 }
 ?>
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title><?= htmlspecialchars($course['title']) ?> - Watch Course</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
+    <meta charset="UTF-8">
+    <title>Watch Course - <?= htmlspecialchars($course['title']) ?></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
     body {
       background-color: #f8f9fa;
     }
@@ -121,22 +127,26 @@ if ($lectureId) {
         <h5 id="video-title"><?= $selectedLecture ? htmlspecialchars($selectedLecture['title']) : "Select a Lecture" ?></h5>
         <video id="video-player" width="100%" height="400" controls <?= $selectedLecture ? '' : 'style="display:none;"' ?>>
             <!-- This <source> tag will be dynamically updated by JavaScript -->
-            <source id="video-source" src="<?= $selectedLecture ? 'educator/' . htmlspecialchars($selectedLecture['video_url']) : '' ?>" type="video/mp4">
+            <source id="video-source" src="<?= $selectedLecture ? 'educator/includes/' . htmlspecialchars($selectedLecture['video_url']) : '' ?>" type="video/mp4">
         </video>
         <?php if (!$selectedLecture): ?>
             <p class="text-muted mt-3">Choose a lecture from the left panel to watch.</p>
         <?php endif; ?>
     </div>
-</div>
+    </div>
     </div>
   </div>
 </div>
 
+</body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+
 <script>
     const videoPlayer = document.getElementById('video-player');
-const videoTitle = document.getElementById('video-title');
-const lectureLinks = document.querySelectorAll('.lecture-link');
+  const videoTitle = document.getElementById('video-title');
+  const lectureLinks = document.querySelectorAll('.lecture-link');
 
 lectureLinks.forEach(link => {
     link.addEventListener('click', function () {
@@ -145,7 +155,7 @@ lectureLinks.forEach(link => {
 
         const title = this.getAttribute('data-title');
         let videoPath = this.getAttribute('data-video').replace(/^\/+/, ''); // Remove leading slashes
-        videoPath = 'educator/' + videoPath; // Prepend the educator folder
+        videoPath = 'educator/includes/' + videoPath; // Prepend the educator folder
 
         console.log('Loading video:', videoPath);  // Debug line
 
@@ -170,8 +180,6 @@ lectureLinks.forEach(link => {
     });
 });
 
-
-
 </script>
-</body>
+<?php include_once 'footer.php' ?>
 </html>
