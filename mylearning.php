@@ -55,9 +55,18 @@ $result = $stmt->get_result();
     .course-card:hover { transform: scale(1.02); }
     .rating { color: gold; }
     .progress-bar { transition: width 0.6s ease; }
+
+
+
+
   </style>
 </head>
 <body>
+
+
+
+
+
 
 <div class="container py-5">
   <h2 class="mb-4">My Enrolled Courses</h2>

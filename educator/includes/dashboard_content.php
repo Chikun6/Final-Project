@@ -69,7 +69,7 @@ $recent_query = $conn->query("SELECT u.name, c.title, e.enrolled_at FROM enrollm
                             <tr>
                                 <td><?= htmlspecialchars($row['name']) ?></td>
                                 <td><?= htmlspecialchars($row['title']) ?></td>
-                                <td><?= date("d M Y", strtotime($row['enroll_date'])) ?></td>
+                                <td><?= date("d M Y", strtotime($row['enrolled_at'])) ?></td>
                             </tr>
                         <?php endwhile; ?>
                     </tbody>

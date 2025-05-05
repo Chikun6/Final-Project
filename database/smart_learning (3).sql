@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 03, 2025 at 09:25 AM
+-- Generation Time: May 05, 2025 at 05:32 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -33,6 +33,37 @@ CREATE TABLE `chapters` (
   `chapter_name` varchar(255) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `chapters`
+--
+
+INSERT INTO `chapters` (`id`, `course_id`, `chapter_name`, `created_at`) VALUES
+(14, 11, 'Chapter - 1', '2025-05-04 04:33:42');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `companies`
+--
+
+CREATE TABLE `companies` (
+  `id` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `exam_pattern` text NOT NULL,
+  `syllabus` text NOT NULL,
+  `preparation_roadmap` text NOT NULL,
+  `youtube_links` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `companies`
+--
+
+INSERT INTO `companies` (`id`, `name`, `exam_pattern`, `syllabus`, `preparation_roadmap`, `youtube_links`) VALUES
+(1, 'TCS', 'Sections: Aptitude, Logical Reasoning, Verbal Ability, Programming Logic, Coding.', 'Topics: Quantitative Aptitude, Verbal, C Programming, Data Structures, Basic Algorithms.', 'Step 1: Understand the pattern. Step 2: Solve previous papers. Step 3: Practice Aptitude & Coding.', 'https://youtu.be/c-3G69x3YcM?list=PLYA_1SYVpPQyMIEGlCkE68U7Qd-Q_Naqh,https://youtu.be/c-3G69x3YcM?list=PLYA_1SYVpPQyMIEGlCkE68U7Qd-Q_Naqh'),
+(2, 'Wipro', 'Sections: Aptitude Test, Written Communication Test, Online Programming Test, HR Interview.', 'Topics: Quantitative Aptitude, Logical Reasoning, Essay Writing Skills, Programming in C, Java, Python.', 'Step 1: Focus on Aptitude and Essay Writing. Step 2: Practice coding on platforms like HackerRank. Step 3: Prepare for behavioral HR questions.', 'https://youtu.be/fDMtx8rxN6M,https://youtu.be/fDMtx8rxN6M'),
+(3, 'Infosys', 'Sections: Reasoning Ability, Mathematical Ability, Verbal Ability, Pseudocode Test, Puzzle Solving.', 'Topics: Data Interpretation, Logical Reasoning, Arithmetic, Grammar, Pseudocode Problems.', 'Step 1: Master logical reasoning and quantitative aptitude. Step 2: Practice pseudocode questions. Step 3: Work on puzzles and brain teasers.', 'https://youtu.be/Jk8-Oa79jgo,https://youtu.be/Jk8-Oa79jgo');
 
 -- --------------------------------------------------------
 
@@ -100,7 +131,9 @@ CREATE TABLE `enrollments` (
 --
 
 INSERT INTO `enrollments` (`id`, `student_id`, `course_id`, `enrolled_at`) VALUES
-(1, 19, 18, '2025-05-03 12:53:29');
+(1, 19, 18, '2025-05-03 12:53:29'),
+(2, 19, 11, '2025-05-04 11:18:21'),
+(3, 19, 17, '2025-05-05 12:23:22');
 
 -- --------------------------------------------------------
 
@@ -116,6 +149,30 @@ CREATE TABLE `lectures` (
   `video_url` text DEFAULT NULL,
   `is_preview` tinyint(1) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `lectures`
+--
+
+INSERT INTO `lectures` (`id`, `chapter_id`, `title`, `duration`, `video_url`, `is_preview`, `created_at`) VALUES
+(10, 14, 'Introduction to Java | Lecture - 1', 18, 'uploads/videos/1746333222_Lecture 1.mp4', 0, '2025-05-04 04:33:42'),
+(11, 14, 'Variables in Java | Lecture - 2', 42, 'uploads/videos/1746337580_Lecture 2.mp4', 1, '2025-05-04 05:46:20');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `lecture_progress`
+--
+
+CREATE TABLE `lecture_progress` (
+  `id` int(11) NOT NULL,
+  `student_id` int(11) NOT NULL,
+  `course_id` int(11) NOT NULL,
+  `lecture_id` int(11) NOT NULL,
+  `watched` tinyint(1) DEFAULT 0,
+  `watched_at` datetime DEFAULT current_timestamp(),
+  `progress_percent` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -136,21 +193,6 @@ CREATE TABLE `notifications` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `progress`
---
-
-CREATE TABLE `progress` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `course_id` int(11) DEFAULT NULL,
-  `completed_percent` int(11) DEFAULT 0,
-  `is_completed` tinyint(1) DEFAULT 0,
-  `last_watched_at` datetime DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `quiz_questions`
 --
 
@@ -162,6 +204,20 @@ CREATE TABLE `quiz_questions` (
   `option3` varchar(255) NOT NULL,
   `option4` varchar(255) NOT NULL,
   `answer` varchar(255) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ratings`
+--
+
+CREATE TABLE `ratings` (
+  `id` int(11) NOT NULL,
+  `course_id` int(11) NOT NULL,
+  `student_id` int(11) NOT NULL,
+  `rating` int(11) DEFAULT NULL CHECK (`rating` between 1 and 5),
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -185,7 +241,9 @@ CREATE TABLE `study_plan` (
 --
 
 INSERT INTO `study_plan` (`id`, `student_id`, `subject`, `task`, `datetime`, `completed`) VALUES
-(2, 19, 'Web-Developement', 'JDBC description', '2025-05-03 15:00:00', 0);
+(3, 19, 'Web-Developement', 'Create a small Project', '2025-05-06 11:00:00', 1),
+(4, 19, 'DBMS', 'Revised Normalisation', '2025-05-05 13:40:00', 0),
+(5, 19, 'java', 'JDBC description', '2025-05-07 14:00:00', 1);
 
 -- --------------------------------------------------------
 
@@ -227,6 +285,12 @@ ALTER TABLE `chapters`
   ADD KEY `course_id` (`course_id`);
 
 --
+-- Indexes for table `companies`
+--
+ALTER TABLE `companies`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `courses`
 --
 ALTER TABLE `courses`
@@ -249,24 +313,33 @@ ALTER TABLE `lectures`
   ADD KEY `chapter_id` (`chapter_id`);
 
 --
+-- Indexes for table `lecture_progress`
+--
+ALTER TABLE `lecture_progress`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `unique_student_lecture` (`student_id`,`lecture_id`),
+  ADD KEY `fk_lp_course` (`course_id`),
+  ADD KEY `fk_lp_lecture` (`lecture_id`);
+
+--
 -- Indexes for table `notifications`
 --
 ALTER TABLE `notifications`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `progress`
---
-ALTER TABLE `progress`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`),
-  ADD KEY `course_id` (`course_id`);
-
---
 -- Indexes for table `quiz_questions`
 --
 ALTER TABLE `quiz_questions`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `ratings`
+--
+ALTER TABLE `ratings`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `course_id` (`course_id`,`student_id`),
+  ADD KEY `student_id` (`student_id`);
 
 --
 -- Indexes for table `study_plan`
@@ -290,7 +363,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `chapters`
 --
 ALTER TABLE `chapters`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT for table `companies`
+--
+ALTER TABLE `companies`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `courses`
@@ -302,24 +381,24 @@ ALTER TABLE `courses`
 -- AUTO_INCREMENT for table `enrollments`
 --
 ALTER TABLE `enrollments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `lectures`
 --
 ALTER TABLE `lectures`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- AUTO_INCREMENT for table `lecture_progress`
+--
+ALTER TABLE `lecture_progress`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `progress`
---
-ALTER TABLE `progress`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -329,10 +408,16 @@ ALTER TABLE `quiz_questions`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `ratings`
+--
+ALTER TABLE `ratings`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `study_plan`
 --
 ALTER TABLE `study_plan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -370,11 +455,19 @@ ALTER TABLE `lectures`
   ADD CONSTRAINT `lectures_ibfk_1` FOREIGN KEY (`chapter_id`) REFERENCES `chapters` (`id`);
 
 --
--- Constraints for table `progress`
+-- Constraints for table `lecture_progress`
 --
-ALTER TABLE `progress`
-  ADD CONSTRAINT `progress_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `progress_ibfk_2` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`);
+ALTER TABLE `lecture_progress`
+  ADD CONSTRAINT `fk_lp_course` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_lp_lecture` FOREIGN KEY (`lecture_id`) REFERENCES `lectures` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_lp_student` FOREIGN KEY (`student_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `ratings`
+--
+ALTER TABLE `ratings`
+  ADD CONSTRAINT `ratings_ibfk_1` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`),
+  ADD CONSTRAINT `ratings_ibfk_2` FOREIGN KEY (`student_id`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `study_plan`

@@ -19,7 +19,7 @@ $tables = ['users', 'courses', 'chapters', 'lectures', 'enrollments', 'progress'
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
     body {
-      background: linear-gradient(to right, rgb(234, 238, 241), rgb(220, 214, 214));
+      background: linear-gradient(to right, rgb(234, 238, 241), rgb(225, 219, 219));
       font-family: 'Segoe UI', sans-serif;
     }
     h2 {
@@ -53,6 +53,17 @@ $tables = ['users', 'courses', 'chapters', 'lectures', 'enrollments', 'progress'
   </style>
 </head>
 <body>
+
+<!-- Logout Button -->
+
+<div class="d-flex justify-content-end align-items-center p-3">
+  <a href="../logout.php" class="btn btn-outline-danger btn-sm">
+    <i class="bi bi-box-arrow-right me-1"></i> Logout
+  </a>
+</div>
+
+
+
 
 <div class="container py-4">
   <h2 class="text-center mb-4">SmartLearning Admin Dashboard</h2>

@@ -81,8 +81,15 @@ foreach ($notifications as $notif) {
           <li class="nav-item me-3">
             <a class="btn btn-outline-primary" href="mylearning.php">My Learning</a>
           </li>
+
+          <!-- Study Plan Button -->
           <li class="nav-item me-3">
             <a class="btn btn-outline-primary" href="st_dashboard.php">Study Plan</a>
+          </li>
+
+          <!-- Career Guide Button -->
+          <li class="nav-item me-3">
+            <a class="btn btn-outline-primary" href="career_guide.php">Career Guide</a>
           </li>
 
           <!-- Notification Icon with Badge -->
@@ -158,7 +165,6 @@ document.getElementById('notificationsModal').addEventListener('shown.bs.modal',
       }
     });
 });
-
 </script>
 
 </body>
