@@ -5,6 +5,7 @@ session_start();
 require_once './../../db_connect.php';
 
 $educator_id = $_SESSION['user_id'];
+
 $query = "SELECT id, title FROM courses WHERE educator_id = ?";
 $stmt = $conn->prepare($query);
 $stmt->bind_param("i", $educator_id);
@@ -159,7 +160,20 @@ $result = $stmt->get_result();
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js"></script>
 
+
 <script>
+$(document).ready(function () {
+    $('#searchInput').on('keyup', function () {
+        const query = $(this).val().toLowerCase();
+        $('.course-card').each(function () {
+            const title = $(this).data('title'); // from data-title attribute
+            $(this).toggle(title.includes(query));
+        });
+    });
+});
+</script>
+<script>
+
 
 function toggleChapter(button) {
     const container = button.closest('.course-card');

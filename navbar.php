@@ -10,20 +10,22 @@ session_start();
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
 
   <style>
-    .fixed-top {
-      background-color: white;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
-   .navbar {
-      background-color: #cee9fc;
-    }
-    .navbar-brand img {
-      height: 55px;
-    }
-    .dropdown-toggle::after {
-      display: none;
-    }
-  </style>
+  .fixed-top {
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+  .navbar {
+    background-color: #cee9fc;
+  }
+  .navbar-brand img {
+    height: 55px;
+  }
+  /* ✅ Stronger selector to hide dropdown arrow */
+  .navbar .dropdown-toggle::after {
+    display: none !important;
+  }
+</style>
+
 </head>
 
 <body>

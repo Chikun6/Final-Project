@@ -1,7 +1,7 @@
 <?php
-
+session_start();
 include_once 'db_connect.php';
-if (!isset($_SESSION)) session_start();
+
 
 $studentId = $_SESSION['user_id'] ?? 0;
 $studentName = $_SESSION['name'] ?? 'Student';
@@ -31,11 +31,11 @@ foreach ($notifications as $notif) {
     <title>Document</title>
     <!-- Bootstrap Icons (required for icons in dropdown) -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
     <style>
-    .fixed-top {
-      background-color: white;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      .fixed-top {
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
     .navbar {
       background-color: #cee9fc;
@@ -43,11 +43,9 @@ foreach ($notifications as $notif) {
     .navbar-brand img {
       height: 55px;
     }
-    .dropdown-toggle::after {
+    /* ✅ Stronger selector to hide dropdown arrow */
+    .navbar .dropdown-toggle::after {
       display: none !important;
-    }
-    .position-relative {
-      position: relative;
     }
     .badge-notify {
       position: absolute;
@@ -60,7 +58,7 @@ foreach ($notifications as $notif) {
 </head>
 <body>
 <header>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm fixed-top">
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top">
     <div class="container">
       <!-- Brand -->
       <a class="navbar-brand fw-bold" href="index.php">
@@ -84,7 +82,7 @@ foreach ($notifications as $notif) {
 
           <!-- Study Plan Button -->
           <li class="nav-item me-3">
-            <a class="btn btn-outline-primary" href="st_dashboard.php">Study Plan</a>
+            <a class="btn btn-outline-primary" href="study_plan.php">Study Plan</a>
           </li>
 
           <!-- Career Guide Button -->
@@ -154,6 +152,10 @@ foreach ($notifications as $notif) {
   </div>
 </div>
 
+
+
+</body>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
 document.getElementById('notificationsModal').addEventListener('shown.bs.modal', function () {
@@ -167,5 +169,4 @@ document.getElementById('notificationsModal').addEventListener('shown.bs.modal',
 });
 </script>
 
-</body>
 </html>

@@ -105,7 +105,7 @@ $chapters_result = $chapters_query->get_result();
 <body>
 
 <div class="container course-detail-container">
-  <a href="index.php" class="btn btn-sm btn-outline-secondary mb-3">← Back to Courses</a>
+  <a href="courses.php" class="btn btn-sm btn-outline-secondary mb-3">← Back to Courses</a>
 
   <div class="row g-4">
     <!-- Left Panel -->

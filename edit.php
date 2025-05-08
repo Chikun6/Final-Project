@@ -24,7 +24,10 @@ $user = $result->fetch_assoc();
 <body class="bg-light">
 
 <div class="container mt-5">
-    <h2 class="mb-4">Edit Profile</h2>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">Edit Profile</h2>
+        <a href="index.php" class="btn btn-outline-secondary">← Back to Home</a>
+    </div>
     <?php if (isset($_GET['error'])): ?>
         <div class="alert alert-danger"><?= htmlspecialchars($_GET['error']) ?></div>
     <?php elseif (isset($_GET['updated'])): ?>

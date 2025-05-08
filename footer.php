@@ -22,10 +22,10 @@
                 <div class="col-md-4 mb-3">
                     <h5 class="text-uppercase font-weight-bold">Quick Links</h5>
                     <ul class="list-unstyled">
-                        <li><a href="home.php" class="text-white">Home</a></li>
+                        <li><a href="index.php" class="text-white">Home</a></li>
                         <li><a href="courses.php" class="text-white">Courses</a></li>
-                        <li><a href="about.php" class="text-white">About Us</a></li>
-                        <li><a href="contact.php" class="text-white">Contact</a></li>
+                        <li><a href="#" class="text-white">About Us</a></li>
+                        <li><a href="#" class="text-white">Contact</a></li>
                     </ul>
                 </div>
     

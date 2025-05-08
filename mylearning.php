@@ -1,4 +1,6 @@
 <?php
+
+
 include_once 'student_navbar.php';
 require_once 'db_connect.php';
 
@@ -55,21 +57,15 @@ $result = $stmt->get_result();
     .course-card:hover { transform: scale(1.02); }
     .rating { color: gold; }
     .progress-bar { transition: width 0.6s ease; }
-
-
-
-
   </style>
 </head>
 <body>
 
-
-
-
-
-
 <div class="container py-5">
-  <h2 class="mb-4">My Enrolled Courses</h2>
+  <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">My Enrolled Courses</h2>
+        <a href="index.php" class="btn btn-outline-secondary">← Back to Home</a>
+    </div>
   <div class="row">
     <?php if ($result->num_rows > 0): ?>
       <?php while ($course = $result->fetch_assoc()): 
@@ -92,14 +88,24 @@ $result = $stmt->get_result();
               <p class="mb-2"><strong>Rating:</strong> 
                 <span class="rating">★ ★ ★ ★ ☆</span> <small>(4.5)</small>
               </p>
-              <div class="progress mb-1" style="height: 8px;">
-                <div class="progress-bar bg-primary" role="progressbar" style="width: <?= $progress ?>%;" aria-valuenow="<?= $progress ?>" aria-valuemin="0" aria-valuemax="100"></div>
+              <div class="progress mt-3">
+                <div class="progress-bar <?= $progress === 100 ? 'bg-success' : 'bg-info' ?>" 
+                    role="progressbar" 
+                    style="width: <?= $progress ?>%;" 
+                    aria-valuenow="<?= $progress ?>" 
+                    aria-valuemin="0" 
+                    aria-valuemax="100">
+                  <?= $progress ?>%
+                </div>
               </div>
-              <p class="small text-muted">Progress: <?= $progress ?>%</p>
             </div>
             <div class="card-footer text-end bg-light">
-              <a href="watch-course.php?course_id=<?= $course['id'] ?>" class="btn btn-sm btn-outline-primary">Go to Course</a>
+              <a href="watch-course.php?course_id=<?= $course['id'] ?>" class="btn btn-sm btn-outline-primary">Watch Now</a>
             </div>
+            <?php if ($progress == 100): ?>
+              <a href="generate_certificate.php?course_id=<?= $course['id'] ?>" class="btn btn-sm btn-success mt-2">🎓 Get Certificate</a>
+            <?php endif; ?>
+
           </div>
         </div>
       <?php endwhile; ?>

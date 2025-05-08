@@ -8,7 +8,8 @@
 
     include "db_connect.php"; // your DB connection file
 
-    $query = "SELECT * FROM courses ORDER BY created_at DESC";
+
+    $query = "SELECT * FROM courses LIMIT 6";
     $result = mysqli_query($conn, $query);
     
 ?>
@@ -21,282 +22,68 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">  
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="CSS/index.css">
     
-    <style>
-        body {
-            background: linear-gradient(to bottom, #e3f2fd, #ffffff);
-            font-family: Arial, sans-serif;
-        }
-        .logo {
-            height: 50px;
-        }
-        .navbar {
-            background-color: #cee9fc;
-        }
-        .hero-section {
-            text-align: center;
-            padding: 50px 20px;
-        }
-        .hero-section h1,h2{
-            font-weight: bold;
-        }
-        .hero-section .highlight {
-            color: blue;
-            text-decoration: underline;
-        }
-        .search-box {
-            max-width: 500px;
-            margin: 20px auto;
-        }
-        .trusted-logos {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin-top: 20px;
-        }
-        .trusted-logos img {
-            width: 100px;
-        }
-        a{
-            text-decoration: none;
-        }
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(47, 112, 252, 0.2);
-        }
-
-        .feedback-section {
-            text-align: center;
-            margin-bottom: 40px;
-            color: #ffffff;
-        }
-        .feedback-card {
-            background-color: rgba(255, 255, 255, 0.34); opacity: 0.7;
-            border: 1px solid #dee2e6;
-            border-radius: 8px;
-            padding: 20px;
-            transition: transform 0.3s ease;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-            position: relative;
-        }
-        .feedback-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        }
-        .profile-pic {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid #007bff;
-            margin-bottom: 10px;
-        }
-        .student-name {
-            font-size: 18px;
-            font-weight: bold;
-            color: #007bff;
-            margin-bottom: 5px;
-        }
-        .student-role {
-            font-size: 14px;
-            color: #6c757d;
-            margin-bottom: 15px;
-        }
-        .feedback-text {
-            font-size: 16px;
-            color: #343a40;
-            line-height: 1.5;
-            margin-bottom: 15px;
-        }
-        .price-tag {
-        font-size: 20px;
-        color: green;
-        }
-
-        .old-price {
-        text-decoration: line-through;
-        color: red;
-        }
-
-        .quote-mark {
-            position: absolute;
-            top: -15px;
-            left: 20px;
-            font-size: 40px;
-            color: #007bff;
-            font-family: serif;
-            opacity: 0.2;
-        }
-    </style>
-    <style>
-    .chat-button {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      border-radius: 50%;
-      width: 60px;
-      height: 60px;
-      font-size: 24px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      cursor: pointer;
-      z-index: 1000;
-      transition: background-color 0.3s;
-    }
-
-    .chat-button:hover {
-      background-color: #0056b3;
-    }
-
-    .modal-content{
-      border-radius: 20px;
-    }
-    .chat-container {
-      width: 100%;
-      height: 90vh;
-      background: rgba(256, 256, 256, 0.75);
-      border-radius: 20px;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-
-    .chat-header {
-      background: linear-gradient(90deg, rgb(87, 172, 232), #c86dd7);
-      color: white;
-      padding: 25px;
-      font-size: large;
-      font-weight: 900;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .chat-options {
-      display: flex;
-      gap: 10px;
-      cursor: pointer;
-    }
-
-    .chat-box {
-      flex: 1;
-      padding: 15px;
-      overflow-y: auto;
-    }
-
-    .input-container {
-      display: flex;
-      align-items: center;
-      padding: 10px;
-      border-top: 1px solid #eee;
-    }
-
-    .input-container input {
-      flex: 1;
-      padding: 8px 12px;
-      border-radius: 20px;
-      border: 1px solid #ddd;
-      outline: none;
-    }
-
-    .input-container button {
-      background: none;
-      border: none;
-      color: #f65df6;
-      font-size: 20px;
-      margin-left: 8px;
-      cursor: pointer;
-    }
-
-    .send-icon {
-      font-weight: bold;
-    }
-
-    .chat-box {
-      display: flex;
-      flex-direction: column;
-      padding: 15px;
-      overflow-y: auto;
-      flex: 1;
-    }
-
-    .message {
-      max-width: 80%;
-      padding: 10px 15px;
-      border-radius: 16px;
-      margin: 8px 0;
-      word-wrap: break-word;
-    }
-
-    .message.user {
-      background-color: rgb(92, 236, 255);
-      align-self: flex-end;
-      border-bottom-right-radius: 0;
-    }
-
-    .message.bot {
-      background-color: rgb(237, 121, 255);
-      align-self: flex-start;
-      border-bottom-left-radius: 0;
-    }
-  </style>
 </head>
 <body>
-
-    <!-- Navigation Bar -->
-    
-
     <!-- Hero Section -->
     <div class="hero-section">
         <h1>Welcome to <span class="highlight">SmartLearning</span></h1>
         <h2>Empower your future with the courses designed to <span class="highlight">fit your choice.</span></h2>
         <p>We bring together world-class instructors, interactive content, and a supportive community to help you achieve your personal and professional goals.</p>
         
-        <div class="search-box d-flex flex-row">
-            <input type="text" class="form-control" id="searchInput" placeholder="Search for courses">
-            <button class="btn btn-primary" onclick="#">Search</button>
+        <div class="search-wrapper text-center my-4">
+            <input type="text" id="searchInput" class="form-control d-inline-block w-auto" placeholder="Search courses">
+            <button class="btn btn-primary" onclick="searchCourses()">Search</button>
+
+            <!-- Result info (initially hidden) -->
+            <div id="searchInfo" class="mt-2 d-none">
+                <span>Results for '<strong id="searchQueryText"></strong>'</span>
+                <button class="btn btn-sm btn-outline-secondary ms-2" onclick="clearSearch()">×</button>
+            </div>
         </div>
+ 
     </div>
 
     <!-- Course Cards Section -->
     <div class="container mt-5">
-        <h2 class="mb-4">Available Courses</h2>
-        <div class="row">
-            <?php while ($course = mysqli_fetch_assoc($result)) : ?>
-            <div class="col-md-4 mb-4">
-                <div class="card h-100 shadow-sm">
+    <h2 class="mb-4 text-center">Featured Courses</h2>
+    <div class="row">
+        <?php while ($course = mysqli_fetch_assoc($result)) : ?>
+        <div class="col-md-4 mb-4 course-card" data-title="<?= strtolower($course['title']) ?>">
+            <div class="card h-100 shadow-sm">
                 <img src="./educator/includes/<?= $course['thumbnail'] ?>" class="card-img-top" alt="<?= htmlspecialchars($course['title']) ?>" style="height: 200px; object-fit: cover;">
                 <div class="card-body d-flex flex-column">
                     <h5 class="card-title"><?= htmlspecialchars($course['title']) ?></h5>
-                    <p class="card-text text-muted small"><?= substr(htmlspecialchars($course['description']), 0, 100) ?>...</p>
+                    <p class="card-text text-muted small"><?= substr(htmlspecialchars($course['description']), 0, 150) ?>...</p>
+                    
                     <div class="mt-2">
                         <strong>Price:</strong>
                         <?php if (!empty($course['discount']) && $course['discount'] > 0): 
                             $discounted = $course['price'] - ($course['price'] * $course['discount'] / 100);
                         ?>
                             <span class="price-tag">₹<?= $discounted ?></span>
-                            <span class="discount"><?= $course['discount'] ?>%</span>
-                            <span class="old-price">₹<?= $course['price'] ?></span>
+                            <span class="old-price text-muted text-decoration-line-through">₹<?= $course['price'] ?></span>
                         <?php else: ?>
                             <span class="price-tag">₹<?= $course['price'] ?></span>
                         <?php endif; ?>
                     </div>
                     <a href="course-details.php?id=<?= $course['id'] ?>" class="btn btn-primary w-100 mt-2">View Course</a>
                 </div>
-                </div>
             </div>
-            <?php endwhile; ?>
         </div>
-    <div class="d-flex align-item-center mb-5 d-none" id="closebutton"><button onclick="closecourses()" class="btn btn-primary ">Show Less</button></div>
+        <?php endwhile; ?>
     </div>
+
+    <!-- View All Button -->
+    <div class="text-center mt-4">
+        <a href="courses.php" class="btn btn-outline-primary">View All Courses</a>
+    </div>
+</div>
 
     
 
-<div class="container mb-5">
+<div class="container mt-5">
     <h2 class="feedback-section text-dark">Student's Feedback</h2>
 
     <!-- Bootstrap Carousel -->
@@ -413,7 +200,7 @@
 
 <button class="chat-button" type="button" data-toggle="modal" data-target=".bd-example-modal-lg">
     <i class="fas fa-comment-alt"></i>
-  </button>
+</button>
 
   <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
     aria-hidden="true">
@@ -442,36 +229,60 @@ require_once 'footer.php';
 ?>
     <!-- JavaScript for Search -->
     <script>
-        // function searchCourses() {
-        //     let query = document.getElementById("searchInput").value;
-        //     if (query) {
-        //         alert("Searching for: " + query);
-        //     } else {
-        //         alert("Please enter a course name.");
-        //     }
-        // }
-        function viewcourses() {
-            document.getElementById("viewcourses").classList.remove("d-none");
-            document.getElementById("viewbutton").classList.add("d-none");
-            document.getElementById("closebutton").classList.remove("d-none");
+        function searchCourses() {
+        const input = document.getElementById("searchInput");
+        const query = input.value.trim().toLowerCase();
+        const courses = document.querySelectorAll('.course-card');
+        const info = document.getElementById("searchInfo");
+        const queryText = document.getElementById("searchQueryText");
+
+        if (!query) {
+            alert("Please enter a course name.");
+            return;
         }
-        function closecourses() {
-            document.getElementById("viewcourses").classList.add("d-none");
-            document.getElementById("viewbutton").classList.remove("d-none");
-            document.getElementById("closebutton").classList.add("d-none");
+
+        let found = false;
+        courses.forEach(course => {
+            const title = course.getAttribute('data-title');
+            if (title.includes(query)) {
+                course.style.display = 'block';
+                found = true;
+            } else {
+                course.style.display = 'none';
+            }
+        });
+
+        if (!found) {
+            alert("No matching courses found.");
         }
-      
-            // const card = document.getElementById('card1');
-            // card.addEventListener('click', () => {
-            //     window.location.href = "cources.php";
-            // });
-        </script>
-        <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> -->
-        <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> -->
-        <script src="script.js"></script>
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+        // Show search result info
+        queryText.textContent = query;
+        info.classList.remove("d-none");
+    }
+
+    function clearSearch() {
+        const input = document.getElementById("searchInput");
+        const courses = document.querySelectorAll('.course-card');
+        const info = document.getElementById("searchInfo");
+
+        input.value = '';
+        info.classList.add("d-none");
+
+        // Show all courses
+        courses.forEach(course => {
+            course.style.display = 'block';
+        });
+    }
+
+    </script>
+
+
+        
+    <script src="script.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 
 </body>
 </html>

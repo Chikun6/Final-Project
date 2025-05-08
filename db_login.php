@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $expected_role = $_POST['role'];
 
     if($email == 'admin@gmail.com' && $password == 'admin@123'){
-        header('Location:admin_dashboard/index.php');
+        header('Location:admin/dashboard.php');
         exit();
     }
 

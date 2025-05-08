@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $profile_image = $user['image'];
     if (!empty($_FILES['image']['name'])) {
-        $target_dir = "uploads/";
+        $target_dir = "";
         $image_name = time() . "_" . basename($_FILES["image"]["name"]);
         $target_file = $target_dir . $image_name;
         move_uploaded_file($_FILES["image"]["tmp_name"], $target_file);
@@ -54,9 +54,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <div class="mb-3">
         <label class="form-label">Profile Image:</label><br>
-        <?php if (!empty($user['image'])): ?>
-            <img src="uploads/<?= $user['image'] ?>" alt="Profile" width="100" class="mb-2 rounded"><br>
-        <?php endif; ?>
         <input type="file" name="profile_image" class="form-control">
     </div>
 
