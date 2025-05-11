@@ -174,7 +174,7 @@ $chapters_result = $chapters_query->get_result();
             <button type="submit" class="btn btn-primary w-100">Enroll Now</button>
           </form>
         <?php else: ?>
-          <button class="btn btn-outline-success w-100" disabled>Already Enrolled</button>
+          <button class="btn btn-outline-success w-100" disabled>Already Enrolled watch Now</button>
         <?php endif; ?>
       </div>
     </div>

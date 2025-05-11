@@ -12,10 +12,37 @@ $roleTitle = ucfirst($role);
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
   <style>
-        body {
-            background: linear-gradient(to right, #004e92, #000428);
-        }
+    body {
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        background: linear-gradient(to bottom right, rgba(0, 78, 146, 0.9), rgba(0, 4, 40, 0.9)),
+                    url('https://www.transparenttextures.com/patterns/cubes.png');
+        background-size: cover;
+        background-repeat: repeat;
+        color: #fff;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .card {
+        background-color: rgba(255, 255, 255, 0.95);
+        border-radius: 15px;
+    }
+
+    .card h3 {
+        color: #004e92;
+    }
+
+    a {
+        color: #004e92;
+        text-decoration: none;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
 </style>
+
 </head>
 <body>
   <div class="container mt-5">

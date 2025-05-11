@@ -85,7 +85,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'educator') {
     <a data-page="dashboard" class="nav-link active"><i class="fas fa-tachometer-alt me-2"></i> Dashboard</a>
     <a data-page="add-course" class="nav-link"><i class="fas fa-plus-circle me-2"></i> Add Course</a>
     <a data-page="mycourses" class="nav-link"><i class="fas fa-book me-2"></i> My Courses</a>
-    <a data-page="quizes" class="nav-link"><i class="fas fa-users me-2"></i>Manage Quizzes</a>
+    <a data-page="quizzes" class="nav-link"><i class="fas fa-users me-2"></i>Manage Quizzes</a>
     <a data-page="enrollments" class="nav-link"><i class="fas fa-users me-2"></i> Enrollments</a>
 </div>
 
@@ -130,7 +130,33 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'educator') {
             loadPage(page);
         });
     });
-</script>
+    function submitQuestions() {
+  const form = document.getElementById('questionForm');
 
+  if (!form || form.tagName !== 'FORM') {
+    alert('Form not found or not a FORM element');
+    return;
+  }
+
+  const formData = new FormData(form);
+
+  fetch('includes/save-question.php', {
+    method: 'POST',
+    body: formData
+  })
+  .then(res => res.text())
+  .then(data => {
+    if (data.trim() === 'success') {
+      const quizId = document.getElementById('quiz_id').value;
+      bootstrap.Modal.getInstance(document.getElementById('questionModal')).hide();
+      loadQuizQuestions(quizId);
+    } else {
+      alert("Error saving question: " + data);
+    }
+  });
+}
+
+</script>
+<script src = "js/quiz.js"></script>
 </body>
 </html>

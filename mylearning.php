@@ -1,6 +1,4 @@
 <?php
-
-
 include_once 'student_navbar.php';
 require_once 'db_connect.php';
 
@@ -63,9 +61,9 @@ $result = $stmt->get_result();
 
 <div class="container py-5">
   <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="mb-0">My Enrolled Courses</h2>
-        <a href="index.php" class="btn btn-outline-secondary">← Back to Home</a>
-    </div>
+    <h2 class="mb-0">My Enrolled Courses</h2>
+    <a href="index.php" class="btn btn-outline-secondary">← Back to Home</a>
+  </div>
   <div class="row">
     <?php if ($result->num_rows > 0): ?>
       <?php while ($course = $result->fetch_assoc()): 
@@ -98,14 +96,76 @@ $result = $stmt->get_result();
                   <?= $progress ?>%
                 </div>
               </div>
+
+              <!-- Quiz Buttons -->
+              <?php
+                $quiz_stmt = $conn->prepare("
+                    SELECT id, title, quiz_number 
+                    FROM quizzes 
+                    WHERE course_id = ?
+                    ORDER BY quiz_number ASC
+                ");
+                $quiz_stmt->bind_param('i', $course['id']);
+                $quiz_stmt->execute();
+                $quiz_result = $quiz_stmt->get_result();
+
+                if ($quiz_result->num_rows > 0):
+                    $canShowNextQuiz = true;
+
+                    while ($quiz = $quiz_result->fetch_assoc()):
+                        $quizNumber = (int)$quiz['quiz_number'];
+                        $requiredProgress = $quizNumber * 20;
+
+                        // Check if current quiz is already submitted
+                        $submission_stmt = $conn->prepare("
+                            SELECT id, score 
+                            FROM quiz_submissions 
+                            WHERE quiz_id = ? AND student_id = ?
+                        ");
+                        $submission_stmt->bind_param('ii', $quiz['id'], $userId);
+                        $submission_stmt->execute();
+                        $submission_result = $submission_stmt->get_result();
+                        $submission_data = $submission_result->fetch_assoc();
+                        $alreadySubmitted = $submission_data ? true : false;
+                        $submission_stmt->close();
+
+                        // Show completed quiz with result
+                        if ($alreadySubmitted):
+                        ?>
+                            <div class="mt-2">
+                                <span class="badge bg-success">✅ <?= htmlspecialchars($quiz['title']) ?> - Scored: <?= $submission_data['score'] ?> / 10</span><br>
+                                <a href="quiz_result.php?quiz_id=<?= $quiz['id'] ?>&student_id=<?= $userId ?>" class="btn btn-sm btn-outline-secondary mt-1">
+                                    View Result
+                                </a>
+                            </div>
+                        <?php
+                        // Show quiz button if eligible and not yet submitted
+                        elseif ($canShowNextQuiz && $progress >= $requiredProgress):
+                        ?>
+                            <div class="mt-2">
+                                <span class="badge bg-primary"><?= htmlspecialchars($quiz['title']) ?> (Available)</span><br>
+                                <a href="quiz.php?quiz_id=<?= $quiz['id'] ?>" class="btn btn-sm btn-success mt-1">Take Quiz</a>
+                            </div>
+                        <?php
+                            // 🚫 Prevent showing further quizzes until this one is done
+                            $canShowNextQuiz = false;
+                        endif;
+                    endwhile;
+                endif;
+                $quiz_stmt->close();
+
+              ?>
+
+              
+              <!-- Certificate Button -->
+              <?php if ($progress == 100): ?>
+                <a href="generate_certificate.php?course_id=<?= $course['id'] ?>" class="btn btn-sm btn-success mt-2">🎓 Get Certificate</a>
+              <?php endif; ?>
+
             </div>
             <div class="card-footer text-end bg-light">
               <a href="watch-course.php?course_id=<?= $course['id'] ?>" class="btn btn-sm btn-outline-primary">Watch Now</a>
             </div>
-            <?php if ($progress == 100): ?>
-              <a href="generate_certificate.php?course_id=<?= $course['id'] ?>" class="btn btn-sm btn-success mt-2">🎓 Get Certificate</a>
-            <?php endif; ?>
-
           </div>
         </div>
       <?php endwhile; ?>
@@ -119,5 +179,14 @@ $result = $stmt->get_result();
 
 <?php include 'footer.php'; ?>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+document.addEventListener('DOMContentLoaded', function () {
+  const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+  tooltipTriggerList.forEach(function (tooltipTriggerEl) {
+    new bootstrap.Tooltip(tooltipTriggerEl)
+  })
+});
+</scrip>
+
 </body>
 </html>

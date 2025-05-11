@@ -22,8 +22,17 @@
         }
 
         body {
-            background: linear-gradient(to right, #004e92, #000428);
-        }
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        background: linear-gradient(to bottom right, rgba(0, 78, 146, 0.9), rgba(0, 4, 40, 0.9)),
+                    url('https://www.transparenttextures.com/patterns/cubes.png');
+        background-size: cover;
+        background-repeat: repeat;
+        color: #fff;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
 
         .register-form {
             border: 1px solid black;
