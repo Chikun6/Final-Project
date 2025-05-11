@@ -1,43 +1,46 @@
 <?php
-include 'db.php';
+$conn = new mysqli("localhost", "root", "", "smart_learning");
+if ($conn->connect_error) die("Connection failed: " . $conn->connect_error);
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_lecture'])) {
+    $id = $conn->real_escape_string($_POST['delete_lecture']);
+    $conn->query("DELETE FROM lectures WHERE id=$id");
+    exit;
+}
+
+$lectures = $conn->query("SELECT lectures.id, lectures.title, lectures.duration, chapters.chapter_name FROM lectures LEFT JOIN chapters ON lectures.chapter_id = chapters.id");
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Manage Lectures</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
-<div class="container mt-4">
-    <h2 class="mb-4">Lectures</h2>
-    <table class="table table-bordered table-striped">
-        <thead class="table-dark">
-        <tr>
-            <th>ID</th>
-            <th>Lecture Title</th>
-            <th>Chapter ID</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        <?php
-        $result = $conn->query("SELECT * FROM lectures");
-        while ($row = $result->fetch_assoc()):
-            ?>
-            <tr>
-                <td><?= htmlspecialchars($row['id']) ?></td>
-                <td><?= htmlspecialchars($row['title']) ?></td>
-                <td><?= htmlspecialchars($row['chapter_id']) ?></td>
-                <td>
-                    <a href="update_lecture.php?id=<?= $row['id'] ?>" class="btn btn-sm btn-warning">Update</a>
-                    <a href="delete_lecture.php?id=<?= $row['id'] ?>" class="btn btn-sm btn-danger"
-                       onclick="return confirm('Are you sure you want to delete this lecture?');">Delete</a>
-                </td>
-            </tr>
-        <?php endwhile; ?>
-        </tbody>
-    </table>
-</div>
-</body>
-</html>
+
+<h3>Lectures</h3>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>ID</th><th>Title</th><th>Duration</th><th>Chapter</th><th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <?php while ($row = $lectures->fetch_assoc()): ?>
+      <tr id="lecture-<?php echo $row['id']; ?>">
+        <td><?= $row['id'] ?></td>
+        <td><?= $row['title'] ?></td>
+        <td><?= $row['duration'] ?> mins</td>
+        <td><?= $row['chapter_name'] ?></td>
+        <td>
+          <button class="btn btn-danger btn-sm" onclick="deleteLecture(<?= $row['id']; ?>)">Delete</button>
+        </td>
+      </tr>
+    <?php endwhile; ?>
+  </tbody>
+</table>
+
+<script>
+function deleteLecture(id) {
+  if (confirm("Delete this lecture?")) {
+    fetch('lectures.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: 'delete_lecture=' + id
+    }).then(() => document.getElementById('lecture-' + id).remove());
+  }
+}
+</script>

@@ -1,13 +1,19 @@
 <?php
 include 'db.php';
 
-if (isset($_GET['id']) && is_numeric($_GET['id'])) {
-    $id = intval($_GET['id']);
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
+    $id = intval($_POST['id']);
     $stmt = $conn->prepare("DELETE FROM users WHERE id = ?");
     $stmt->bind_param("i", $id);
-    $stmt->execute();
-}
+    
+    if ($stmt->execute()) {
+        echo "success";
+    } else {
+        echo "error";
+    }
 
-header("Location: users.php");
-exit();
+    $stmt->close();
+} else {
+    echo "invalid";
+}
 ?>

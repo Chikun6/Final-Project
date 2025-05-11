@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stmt->bind_param("sssii", $subject, $task, $datetime, $id, $student_id);
     
     if ($stmt->execute()) {
-        header("Location: st_dashboard.php");
+        header("Location: study_plan.php");
         exit;
     } else {
         echo "Error updating study plan: " . $stmt->error;

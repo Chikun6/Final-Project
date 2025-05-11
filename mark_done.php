@@ -13,6 +13,6 @@ $student_id = $_SESSION['user_id'];
 $conn->query("UPDATE study_plan SET completed = 1 WHERE id = $id AND student_id = $student_id");
 
 $_SESSION['message'] = "Task marked as completed!";
-header("Location: st_dashboard.php");
+header("Location: study_plan.php");
 exit;
 ?>

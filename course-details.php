@@ -166,17 +166,15 @@ $chapters_result = $chapters_query->get_result();
             <span class="price-tag">₹<?= $course['price'] ?></span>
           <?php endif; ?>
         </div>
+        
 
-        <!-- Enrollment Form -->
+        <!-- Enrollment Section -->
         <?php if (!$enrolled): ?>
-          <form method="POST" action="enrollment.php">
-            <input type="hidden" name="course_id" value="<?= $course_id ?>">
-            <button type="submit" class="btn btn-primary w-100">Enroll Now</button>
-          </form>
+          <button id="enroll-btn" class="btn btn-primary w-100" data-course-id="<?= $course_id ?>" data-amount="<?= $price ?>">Enroll Now</button>
         <?php else: ?>
-          <button class="btn btn-outline-success w-100" disabled>Already Enrolled watch Now</button>
+          <button class="btn btn-outline-success w-100" disabled>Already Enrolled - Watch Now</button>
         <?php endif; ?>
-      </div>
+
     </div>
 
     <!-- Right Panel: Video Player + Chapters & Lectures -->

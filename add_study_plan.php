@@ -11,6 +11,6 @@ $stmt = $conn->prepare("INSERT INTO study_plan (student_id, subject, task, datet
 $stmt->bind_param("isss", $student_id, $subject, $task, $datetime);
 $stmt->execute();
 
-header("Location: st_dashboard.php");
+header("Location: study_plan.php");
 exit;
 ?>

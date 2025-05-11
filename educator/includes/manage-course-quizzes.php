@@ -14,6 +14,7 @@ $quizzes = $conn->query("SELECT * FROM quizzes WHERE course_id = $course_id ORDE
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                     <span><?= htmlspecialchars($quiz['title']) ?></span>
                     <div>
+                        <button class="btn btn-sm btn-info" onclick="showResults(<?= $quiz['id'] ?>)">Results</button>
                         <button class="btn btn-sm btn-success" onclick="loadQuizQuestions(<?= $quiz['id'] ?>)">View</button>
                         <button class="btn btn-sm btn-warning" onclick="editQuiz(<?= $quiz['id'] ?>)">Edit</button>
                         <button class="btn btn-sm btn-danger" onclick="deleteQuiz(<?= $quiz['id'] ?>)">Delete</button>
@@ -26,6 +27,18 @@ $quizzes = $conn->query("SELECT * FROM quizzes WHERE course_id = $course_id ORDE
 
 <button class="btn btn-primary mt-3" onclick="createNewQuiz(<?= $course_id ?>)">Add New Quiz</button>
 
-
-<script src = "../../js/quiz.js"></script>
-
+<script>
+function showResults(quizId) {
+    $.ajax({
+        url: 'includes/quiz_results.php',
+        method: 'POST',
+        data: { quiz_id: quizId },
+        success: function(response) {
+            $('#main-content').html(response); // Show leaderboard inside dashboard
+        },
+        error: function() {
+            alert('Failed to load leaderboard.');
+        }
+    });
+}
+</script>

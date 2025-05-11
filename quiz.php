@@ -203,7 +203,7 @@ while ($q = $questionsResult->fetch_assoc()) {
                 icon: 'success',
                 confirmButtonText: 'Go to Result Page'
             }).then(() => {
-                window.location.href = 'quiz_result.php';
+                window.location.href = `quiz_result.php?quiz_id=${data.quiz_id}&student_id=${data.student_id}`;
             });
         }).catch(err => {
             Swal.fire('Error', 'Something went wrong. Please try again.', 'error');

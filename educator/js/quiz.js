@@ -103,4 +103,17 @@ function loadQuizQuestions(quizId) {
   }
 
 
+function showResults(quizId) {
+    $.ajax({
+        url: 'includes/quiz_result.php',
+        method: 'POST',
+        data: { quiz_id: quizId },
+        success: function(response) {
+            $('#main-content').html(response); // Show leaderboard inside dashboard
+        },
+        error: function() {
+            alert('Failed to load leaderboard.');
+        }
+    });
+}
   

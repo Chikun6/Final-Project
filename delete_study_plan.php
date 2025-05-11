@@ -10,6 +10,6 @@ if (isset($_POST['id'])) {
     $stmt->execute();
 }
 
-header("Location: st_dashboard.php");
+header("Location: study_plan.php");
 exit;
 ?>

@@ -1,46 +1,56 @@
 <?php
-include_once 'student_navbar.php';
 require_once 'db_connect.php';
+include_once 'student_navbar.php';
 
-// Ensure the student is logged in
+// Ensure student is logged in
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'student') {
     header('Location: login.php');
     exit;
 }
 
-// Get quiz_id and score from POST
-$quizId = isset($_POST['quiz_id']) ? (int)$_POST['quiz_id'] : 0;
-$studentScore = isset($_POST['score']) ? (int)$_POST['score'] : -1;
+$quizId = isset($_GET['quiz_id']) ? (int)$_GET['quiz_id'] : 0;
+$studentId = isset($_GET['student_id']) ? (int)$_GET['student_id'] : 0;
 
-if ($quizId <= 0 || $studentScore < 0) {
-    echo "Quiz ID or score is missing or invalid.";
+if ($quizId <= 0 || $studentId <= 0) {
+    echo "<div class='alert alert-danger'>Quiz ID or Student ID is missing or invalid.</div>";
     exit;
 }
 
-$studentId = $_SESSION['user_id'];
+// Get quiz title
+$quizTitle = '';
+$titleQuery = $conn->prepare("SELECT title FROM quizzes WHERE id = ?");
+$titleQuery->bind_param("i", $quizId);
+$titleQuery->execute();
+$titleResult = $titleQuery->get_result();
+if ($row = $titleResult->fetch_assoc()) {
+    $quizTitle = $row['title'];
+}
 
-// Get all questions with explanations for this quiz
-$questionsQuery = "SELECT question_text, option_a, option_b, option_c, option_d, correct_option, explanation 
-                   FROM quiz_questions 
-                   WHERE quiz_id = ?";
-$qStmt = $conn->prepare($questionsQuery);
-$qStmt->bind_param("i", $quizId);
-$qStmt->execute();
-$questions = $qStmt->get_result()->fetch_all(MYSQLI_ASSOC);
+// Get student's score
+$score = 0;
+$submissionQuery = $conn->prepare("SELECT score FROM quiz_submissions WHERE quiz_id = ? AND student_id = ? ORDER BY submitted_at DESC LIMIT 1");
+$submissionQuery->bind_param("ii", $quizId, $studentId);
+$submissionQuery->execute();
+$submissionResult = $submissionQuery->get_result();
+if ($row = $submissionResult->fetch_assoc()) {
+    $score = $row['score'];
+} else {
+    echo "<div class='alert alert-warning'>No submission found for this quiz.</div>";
+    exit;
+}
 
-// Leaderboard for this quiz
-$leaderboardQuery = "SELECT u.name, qs.score 
-                     FROM quiz_submissions qs 
-                     JOIN users u ON qs.student_id = u.id 
-                     WHERE qs.quiz_id = ? 
-                     ORDER BY qs.score DESC, qs.submitted_at ASC 
-                     LIMIT 10";
-$lStmt = $conn->prepare($leaderboardQuery);
-$lStmt->bind_param("i", $quizId);
-$lStmt->execute();
-$leaders = $lStmt->get_result()->fetch_all(MYSQLI_ASSOC);
+// Get all questions and correct answers
+$questionQuery = $conn->prepare("SELECT question_text, option_a, option_b, option_c, option_d, correct_option, explanation FROM quiz_questions WHERE quiz_id = ?");
+$questionQuery->bind_param("i", $quizId);
+$questionQuery->execute();
+$questions = $questionQuery->get_result()->fetch_all(MYSQLI_ASSOC);
+
+// Leaderboard
+$leaderboardQuery = $conn->prepare("SELECT u.name, qs.score FROM quiz_submissions qs JOIN users u ON qs.student_id = u.id WHERE qs.quiz_id = ? ORDER BY qs.score DESC, qs.submitted_at ASC LIMIT 10");
+$leaderboardQuery->bind_param("i", $quizId);
+$leaderboardQuery->execute();
+$leaders = $leaderboardQuery->get_result()->fetch_all(MYSQLI_ASSOC);
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -52,7 +62,7 @@ $leaders = $lStmt->get_result()->fetch_all(MYSQLI_ASSOC);
 <body class="bg-light">
 <div class="container my-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="mb-4 text-primary">Your Score: <?= $studentScore ?></h2>
+        <h2 class="mb-4 text-primary">Your Score: <?= $score ?></h2>
         <a href="mylearning.php" class="btn btn-outline-secondary">← Back to Course</a>
     </div>
     <div class="card mb-5">
