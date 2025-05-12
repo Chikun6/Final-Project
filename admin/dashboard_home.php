@@ -13,8 +13,12 @@ $courses = $coursesQuery->fetch_assoc()['total_courses'] ?? 0;
 // Total Lectures
 $lecturesQuery = $conn->query("SELECT COUNT(*) AS total_lectures FROM lectures");
 $lectures = $lecturesQuery->fetch_assoc()['total_lectures'] ?? 0;
+
+// Pending Teachers
+$pendingTeachers = $conn->query("SELECT id, name, email FROM users WHERE role = 'educator' AND status = 'pending'");
 ?>
 
+<!-- Dashboard Cards -->
 <div class="container">
   <h2 class="mb-4">Admin Dashboard</h2>
   <div class="row">
@@ -45,11 +49,11 @@ $lectures = $lecturesQuery->fetch_assoc()['total_lectures'] ?? 0;
   </div>
 </div>
 
-
+<!-- Teacher Approval Section -->
 <div class="container mt-5">
   <h3 class="text-center text-success fw-bold mb-4">Teacher Approval Section</h3>
   <div class="table-responsive shadow p-3 bg-white rounded">
-    <table class="table table-bordered table-striped align-middle text-center">
+    <table class="table table-bordered table-striped align-middle text-center" id="teacherTable">
       <thead class="table-success">
         <tr>
           <th>#</th>
@@ -59,19 +63,45 @@ $lectures = $lecturesQuery->fetch_assoc()['total_lectures'] ?? 0;
         </tr>
       </thead>
       <tbody>
-        <!-- Example row (remove this in dynamic version) -->
-        <tr>
-          <td>1</td>
-          <td>John Doe</td>
-          <td>john@example.com</td>
+        <?php
+        $serial = 1;
+        while ($row = $pendingTeachers->fetch_assoc()):
+        ?>
+        <tr id="row-<?= $row['id'] ?>">
+          <td><?= $serial++ ?></td>
+          <td><?= htmlspecialchars($row['name']) ?></td>
+          <td><?= htmlspecialchars($row['email']) ?></td>
           <td>
-            <button class="btn btn-sm btn-primary me-1">Approve</button>
-            <button class="btn btn-sm btn-danger">Reject</button>
+            <button class="btn btn-sm btn-primary me-1 action-btn" data-id="<?= $row['id'] ?>" data-action="approve">Approve</button>
+            <button class="btn btn-sm btn-danger action-btn" data-id="<?= $row['id'] ?>" data-action="reject">Reject</button>
           </td>
         </tr>
-        <!-- Dynamic PHP rows go here -->
+        <?php endwhile; ?>
       </tbody>
     </table>
   </div>
 </div>
 
+<!-- jQuery for AJAX -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).on('click', '.action-btn', function() {
+  const teacherId = $(this).data('id');
+  const action = $(this).data('action');
+
+  $.ajax({
+    url: 'approve_teacher.php',
+    method: 'POST',
+    data: { teacher_id: teacherId, action: action },
+    success: function(response) {
+      if (response.trim() === 'success') {
+        $('#row-' + teacherId).fadeOut(500, function() {
+          $(this).remove();
+        });
+      } else {
+        alert('Error: ' + response);
+      }
+    }
+  });
+});
+</script>

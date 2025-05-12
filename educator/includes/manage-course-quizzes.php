@@ -1,8 +1,16 @@
 <?php
 include './../../db_connect.php';
 
-$course_id = $_GET['course_id'];
-$quizzes = $conn->query("SELECT * FROM quizzes WHERE course_id = $course_id ORDER BY id DESC");
+// Sanitize input to avoid SQL Injection
+$course_id = isset($_GET['course_id']) ? (int)$_GET['course_id'] : 0;
+
+if ($course_id > 0) {
+    // Fetch quizzes for the given course ID
+    $quizzes = $conn->query("SELECT * FROM quizzes WHERE course_id = $course_id ORDER BY id DESC");
+} else {
+    echo "<div class='alert alert-danger'>Invalid Course ID.</div>";
+    exit;
+}
 ?>
 
 <div id="quiz-list">
@@ -14,10 +22,10 @@ $quizzes = $conn->query("SELECT * FROM quizzes WHERE course_id = $course_id ORDE
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                     <span><?= htmlspecialchars($quiz['title']) ?></span>
                     <div>
-                        <button class="btn btn-sm btn-info" onclick="showResults(<?= $quiz['id'] ?>)">Results</button>
-                        <button class="btn btn-sm btn-success" onclick="loadQuizQuestions(<?= $quiz['id'] ?>)">View</button>
-                        <button class="btn btn-sm btn-warning" onclick="editQuiz(<?= $quiz['id'] ?>)">Edit</button>
-                        <button class="btn btn-sm btn-danger" onclick="deleteQuiz(<?= $quiz['id'] ?>)">Delete</button>
+                        <button class="btn btn-info show-results-btn" data-quiz-id="<?= $quiz['id'] ?>">Results</button>
+                        <button class="btn btn-warning edit-quiz-btn" data-quiz-id="<?= $quiz['id'] ?>">Edit</button>
+                        <button class="btn btn-danger delete-quiz-btn" data-quiz-id="<?= $quiz['id'] ?>">Delete</button>
+                        <button class="btn btn-success load-questions-btn" data-quiz-id="<?= $quiz['id'] ?>">View</button>
                     </div>
                 </li>
             <?php endwhile; ?>
@@ -26,19 +34,3 @@ $quizzes = $conn->query("SELECT * FROM quizzes WHERE course_id = $course_id ORDE
 </div>
 
 <button class="btn btn-primary mt-3" onclick="createNewQuiz(<?= $course_id ?>)">Add New Quiz</button>
-
-<script>
-function showResults(quizId) {
-    $.ajax({
-        url: 'includes/quiz_results.php',
-        method: 'POST',
-        data: { quiz_id: quizId },
-        success: function(response) {
-            $('#main-content').html(response); // Show leaderboard inside dashboard
-        },
-        error: function() {
-            alert('Failed to load leaderboard.');
-        }
-    });
-}
-</script>

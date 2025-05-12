@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 11, 2025 at 10:02 AM
+-- Generation Time: May 12, 2025 at 03:45 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -128,7 +128,7 @@ CREATE TABLE `courses` (
 
 INSERT INTO `courses` (`id`, `educator_id`, `title`, `description`, `topics`, `category`, `level`, `thumbnail`, `price`, `discount`, `tags`, `created_at`) VALUES
 (11, 20, 'Java', 'Java is a powerful, platform-independent, object-oriented programming language widely used for building desktop, web, and mobile applications. It follows the principle of \"write once, run anywhere\" using the Java Virtual Machine (JVM). Java supports multithreading, strong memory management, and robust security features, making it ideal for scalable enterprise-level applications.', 'Java Basics, Data Types, Variables, Operators, Control Flow (if, switch, loops), Methods, Object-Oriented Programming, Classes and Objects, Inheritance, Polymorphism, Abstraction, Encapsulation, Arrays, Strings, Exception Handling, Collections Framework, Generics, File I/O, Multithreading, Synchronization, JDBC, JavaFX, Applets, Servlets, JSP, Lambda Expressions, Stream API, Annotations, Enums, Wrapper Classes, Java Memory Management, Garbage Collection, JVM Architecture, JUnit Testing, Maven, Gradle, Spring Framework, Spring Boot, Hibernate, Microservices, Design Patterns, Networking, Serialization, Java Security, Java 8 Features, Functional Interfaces, Modules (Java 9+).', 'Programming', 'Intermediate', 'uploads/6815bd23b50cb.jpg', 999, 10, 'backend', '2025-05-03 06:52:19'),
-(12, 20, 'Web-developement', 'Web development is the process of creating websites or web applications using technologies like HTML, CSS, JavaScript, and backend languages such as PHP, Python, or Java. It involves both frontend (user interface) and backend (server-side logic) development, ensuring functionality, responsiveness, security, and a seamless user experience across devices and platforms.', 'HTML, CSS, JavaScript, Responsive Design, DOM Manipulation, Bootstrap, Tailwind CSS, Git and GitHub, Web Accessibility, SEO Basics, Frontend Frameworks (React, Angular, Vue), Backend Development, Node.js, Express.js, PHP, Python (Flask, Django), Java (Spring Boot), Databases (MySQL, MongoDB), RESTful APIs, Authentication & Authorization, CRUD Operations, MVC Architecture, JSON, AJAX, Web Hosting, Deployment (Netlify, Vercel, Heroku), Version Control, API Integration, Sessions and Cookies, Web Security (HTTPS, SQL Injection, XSS), CMS (WordPress), Testing & Debugging, WebSockets, Progressive Web Apps (PWA), CI/CD Basics.', 'Web Development', 'Advanced', 'uploads/6815bdbbb479e.jpg', 4999, 25, 'fullstack', '2025-05-03 06:54:51'),
+(12, 20, 'Web-developement', 'Web development is the process of creating websites or web applications using technologies like HTML, CSS, JavaScript, and backend languages such as PHP, Python, or Java. It involves both frontend (user interface) and backend (server-side logic) development, ensuring functionality, responsiveness, security, and a seamless user experience across devices and platforms.', 'HTML, CSS, JavaScript, Responsive Design, DOM Manipulation, Bootstrap, Tailwind CSS, Git and GitHub, Web Accessibility, SEO Basics, Frontend Frameworks (React, Angular, Vue), Backend Development, Node.js, Express.js, PHP, Python (Flask, Django), Java (Spring Boot), Databases (MySQL, MongoDB), RESTful APIs, Authentication & Authorization, CRUD Operations, MVC Architecture, JSON, AJAX, Web Hosting, Deployment (Netlify, Vercel, Heroku), Version Control, API Integration, Sessions and Cookies, Web Security (HTTPS, SQL Injection, XSS), CMS (WordPress), Testing & Debugging, WebSockets, Progressive Web Apps (PWA), CI/CD Basics.', 'Web Development', 'Advanced', 'uploads/6815bdbbb479e.jpg', 1, 0, 'fullstack', '2025-05-03 06:54:51'),
 (13, 20, 'PHP', 'PHP is a popular server-side scripting language designed for web development. This course covers PHP fundamentals, syntax, form handling, sessions, cookies, file handling, and database connectivity using MySQL. Learners will build dynamic, interactive websites and understand how PHP integrates with HTML, CSS, and JavaScript to power backend web functionality', 'PHP Basics, Syntax, Variables, Data Types, Operators, Control Structures (if, else, switch, loops), Functions, Arrays, Strings, Form Handling, GET and POST Methods, File Handling, Sessions, Cookies, Include/Require, Error Handling, Object-Oriented Programming (OOP), Classes and Objects, Inheritance, Constructors, Database Connectivity (MySQL), PDO, CRUD Operations, User Authentication, File Upload, Email Sending, Date and Time Functions, Regular Expressions, PHP and JavaScript Integration, JSON Handling, Security Practices (SQL Injection Prevention, XSS), PHP Frameworks (Laravel, CodeIgniter), REST API with PHP, MVC Architecture, PHP Configuration, Deployment and Hosting', 'Web Development', 'Intermediate', 'uploads/6815be2aac4ee.png', 1999, 10, 'fullstack', '2025-05-03 06:56:42'),
 (14, 20, 'PYTHON', 'This Python course covers the fundamentals of programming, including variables, data types, loops, and functions. It introduces object-oriented programming (OOP) concepts, file handling, and error management. Learners will explore advanced topics like web development with Flask, data analysis with Pandas, and machine learning with popular libraries such as Scikit-learn.\r\n\r\n\r\n\r\nThis Python course covers the fundamentals of programming, including variables, data types, loops, and functions. It introduces object-oriented programming (OOP) concepts, file handling, and error management. Learners will explore advanced topics like web development with Flask, data analysis with Pandas, and machine learning with popular libraries such as Scikit-learn.\r\n\r\n\r\n\r\n\r\n\r\n\r\nThis Python course covers the fundamentals of programming, including variables, data types, loops, and functions. It introduces object-oriented programming (OOP) concepts, file handling, and error management. Learners will explore advanced topics like web development with Flask, data analysis with Pandas, and machine learning with popular libraries such as Scikit-learn.\r\n\r\n', 'Python Basics, Variables, Data Types, Operators, Control Flow (if, else, loops), Functions, Modules and Packages, Lists, Tuples, Dictionaries, Sets, Exception Handling, File I/O, Object-Oriented Programming (OOP), Classes and Objects, Inheritance, Polymorphism, Lambda Functions, Decorators, Generators, Iterators, Regular Expressions, Python Libraries (NumPy, Pandas, Matplotlib), Web Development (Flask, Django), Database Connectivity (SQLite, MySQL), Multithreading, Networking, Unit Testing (unittest, pytest), Virtual Environments, Pythonic Code, Data Structures, Algorithms, JSON Handling, APIs, Data Analysis, Machine Learning (TensorFlow, Scikit-learn), Web Scraping, Flask/Django, Automation, Python Security.', 'Design', 'Advanced', 'uploads/6815beafaf7a9.jpg', 3999, 45, 'backend', '2025-05-03 06:58:55'),
 (15, 20, 'IOT', 'The IoT course introduces the fundamentals of Internet of Things, covering device communication, sensors, microcontrollers (e.g., Arduino, Raspberry Pi), wireless protocols (Wi-Fi, Bluetooth), and cloud integration. Students will learn to build and manage IoT systems, create data-driven applications, and explore security and scalability challenges in IoT solutions', 'Introduction to IoT, IoT Architecture, IoT Protocols (MQTT, HTTP, CoAP), Sensors and Actuators, Microcontrollers (Arduino, Raspberry Pi), Wireless Communication (Wi-Fi, Bluetooth, Zigbee), IoT Data Collection and Processing, Cloud Integration (AWS IoT, Google Cloud), IoT Security, Data Analytics, IoT in Smart Homes, Smart Cities, and Healthcare, IoT Platforms, IoT Protocols (LPWAN, NB-IoT), IoT Hardware (GPIO, ADC), Embedded Systems, IoT Application Development, IoT Software Development, IoT Protocols and APIs, Real-time Data Processing, IoT Data Storage, IoT Device Management, IoT Edge Computing, Power Management for IoT Devices, IoT Networking, IoT Application Design, IoT Automation, IoT Data Visualization', 'Design', 'Intermediate', 'uploads/6815bf1d6caab.png', 999, 25, 'database', '2025-05-03 07:00:45'),
@@ -146,6 +146,7 @@ CREATE TABLE `enrollments` (
   `id` int(11) NOT NULL,
   `student_id` int(11) NOT NULL,
   `course_id` int(11) NOT NULL,
+  `payment_id` varchar(30) NOT NULL,
   `enrolled_at` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -153,10 +154,11 @@ CREATE TABLE `enrollments` (
 -- Dumping data for table `enrollments`
 --
 
-INSERT INTO `enrollments` (`id`, `student_id`, `course_id`, `enrolled_at`) VALUES
-(1, 19, 18, '2025-05-03 12:53:29'),
-(2, 19, 11, '2025-05-04 11:18:21'),
-(3, 19, 17, '2025-05-05 12:23:22');
+INSERT INTO `enrollments` (`id`, `student_id`, `course_id`, `payment_id`, `enrolled_at`) VALUES
+(2, 19, 11, '', '2025-05-04 11:18:21'),
+(3, 19, 17, '', '2025-05-05 12:23:22'),
+(9, 23, 11, 'pay_QU1DwbfRudKCyi', '2025-05-12 18:02:59'),
+(10, 23, 13, 'pay_QU2Jlpxv04CjdR', '2025-05-12 19:07:12');
 
 -- --------------------------------------------------------
 
@@ -209,7 +211,13 @@ CREATE TABLE `lecture_progress` (
 INSERT INTO `lecture_progress` (`id`, `student_id`, `course_id`, `lecture_id`, `watched`, `watched_at`, `progress_percent`) VALUES
 (10, 19, 11, 10, 1, '2025-05-11 12:04:09', 100),
 (11, 19, 11, 11, 1, '2025-05-11 12:06:48', 100),
-(12, 19, 11, 12, 1, '2025-05-11 12:33:22', 100);
+(12, 19, 11, 12, 1, '2025-05-11 12:33:22', 100),
+(13, 19, 11, 14, 1, '2025-05-11 13:49:00', 100),
+(14, 19, 11, 15, 0, '2025-05-11 20:56:29', 0),
+(15, 19, 11, 16, 0, '2025-05-11 20:56:39', 0),
+(16, 23, 11, 10, 1, '2025-05-12 18:04:30', 100),
+(17, 23, 11, 11, 1, '2025-05-12 18:04:15', 100),
+(18, 23, 11, 12, 1, '2025-05-12 19:08:35', 100);
 
 -- --------------------------------------------------------
 
@@ -249,7 +257,12 @@ INSERT INTO `quizzes` (`id`, `course_id`, `quiz_number`, `title`, `created_at`) 
 (5, 11, 2, 'Test-2', '2025-05-08 17:53:33'),
 (6, 11, 3, 'Test-3', '2025-05-08 18:34:43'),
 (7, 11, 4, 'Test-4', '2025-05-11 09:57:49'),
-(8, 11, 5, 'Test-5', '2025-05-11 09:57:52');
+(8, 11, 5, 'Test-5', '2025-05-11 09:57:52'),
+(10, 12, 1, 'Test-1', '2025-05-11 17:45:58'),
+(11, 12, 2, 'Test-2', '2025-05-11 17:46:13'),
+(12, 12, 3, 'Test-3', '2025-05-11 17:46:28'),
+(19, 12, 4, 'Test-4', '2025-05-11 20:40:59'),
+(21, 12, 5, 'Test-5', '2025-05-11 20:46:00');
 
 -- --------------------------------------------------------
 
@@ -324,7 +337,57 @@ INSERT INTO `quiz_questions` (`id`, `quiz_id`, `question_text`, `option_a`, `opt
 (47, 8, 'What is the difference between an abstract class and an interface in Java?', 'An abstract class can have method definitions, while an interface cannot', 'An interface can have concrete methods, while an abstract class cannot', 'An interface can have constructors, while an abstract class cannot', 'None of the above', 'a', 'An abstract class can have both abstract and concrete methods, while an interface only defines abstract methods (until Java 8).', '2025-05-11 12:02:02'),
 (48, 8, 'What is the output of the following code: System.out.println(10 / 4);', '2', '2.5', '3', 'Error', 'a', 'In integer division, the fractional part is discarded, so the result of 10 / 4 is 2.', '2025-05-11 12:02:02'),
 (49, 8, 'Which of the following is used to define a constructor in Java?', 'function()', 'constructor()', 'ClassName()', 'void()', 'c', 'In Java, constructors are defined with the same name as the class, i.e., ClassName().', '2025-05-11 12:02:02'),
-(50, 8, 'What is the result of trying to access a private method of a class from another class?', 'The code will run successfully', 'A compilation error will occur', 'It will give a runtime error', 'None of the above', 'b', 'A private method can only be accessed within the class it is defined; trying to access it from another class will result in a compilation error.', '2025-05-11 12:02:02');
+(50, 8, 'What is the result of trying to access a private method of a class from another class?', 'The code will run successfully', 'A compilation error will occur', 'It will give a runtime error', 'None of the above', 'b', 'A private method can only be accessed within the class it is defined; trying to access it from another class will result in a compilation error.', '2025-05-11 12:02:02'),
+(51, 10, 'Which of the following is the correct HTML element for inserting a line break?', '<break>', '<br>', '<lb>', '<line>', 'b', 'The <br> tag is used to insert a line break in HTML.', '2025-05-12 11:33:06'),
+(52, 10, 'Which HTML tag is used to define an internal style sheet?', '<style>', '<css>', '<script>', '<link>', 'a', 'The <style> tag is used to define internal CSS styles in HTML.', '2025-05-12 11:33:06'),
+(53, 10, 'Which HTML element is used to specify a footer for a document or section?', '<footer>', '<bottom>', '<section>', '<aside>', 'a', 'The <footer> tag defines a footer for a document or section in HTML.', '2025-05-12 11:33:06'),
+(54, 10, 'Which of the following attributes is used to define the background color of a webpage?', 'bgcolor', 'background', 'color', 'bg-color', 'a', 'The bgcolor attribute was used in older versions of HTML to define the background color of a webpage.', '2025-05-12 11:33:06'),
+(55, 10, 'Which tag is used to define a hyperlink in HTML?', '<link>', '<a>', '<href>', '<url>', 'b', 'The <a> tag is used to define hyperlinks in HTML.', '2025-05-12 11:33:06'),
+(56, 10, 'How do you create a bulleted list in HTML?', '<ul>', '<ol>', '<li>', '<dl>', 'a', 'The <ul> tag is used to create an unordered (bulleted) list in HTML.', '2025-05-12 11:33:06'),
+(57, 10, 'Which tag is used to display an image in HTML?', '<img>', '<image>', '<src>', '<picture>', 'a', 'The <img> tag is used to display images in HTML, with the source defined by the src attribute.', '2025-05-12 11:33:06'),
+(58, 10, 'How can you make a numbered list in HTML?', '<ul>', '<ol>', '<dl>', '<li>', 'b', 'The <ol> tag is used to create an ordered (numbered) list in HTML.', '2025-05-12 11:33:06'),
+(59, 10, 'Which tag is used to define a table in HTML?', '<table>', '<tab>', '<tbody>', '<tr>', 'a', 'The <table> tag is used to define a table structure in HTML.', '2025-05-12 11:33:06'),
+(60, 10, 'What is the correct HTML element for inserting a JavaScript?', '<javascript>', '<script>', '<js>', '<code>', 'b', 'The <script> tag is used to insert JavaScript into an HTML document.', '2025-05-12 11:33:06'),
+(61, 11, 'Which HTML tag is used to link an external CSS file?', '<style>', '<css>', '<link>', '<script>', 'c', 'The <link> tag is used to include an external CSS file in HTML.', '2025-05-12 11:35:30'),
+(62, 11, 'Which property is used to change the background color in CSS?', 'color', 'bgcolor', 'background-color', 'background', 'c', 'The background-color property sets the background color of an element.', '2025-05-12 11:35:30'),
+(63, 11, 'Which CSS property is used to change the text color of an element?', 'fgcolor', 'text-color', 'color', 'font-color', 'c', 'The color property is used to change the text color of an element.', '2025-05-12 11:35:30'),
+(64, 11, 'Which CSS property controls the text size?', 'font-style', 'text-size', 'font-size', 'text-style', 'c', 'The font-size property sets the size of the text.', '2025-05-12 11:35:30'),
+(65, 11, 'How do you make all <p> elements bold in CSS?', 'p {font-style: bold;}', 'p {text-weight: bold;}', 'p {font-weight: bold;}', 'p {bold: true;}', 'c', 'The font-weight property sets the boldness of the text.', '2025-05-12 11:35:30'),
+(66, 11, 'Which CSS property is used to set the height of an element?', 'height', 'size', 'element-height', 'line-height', 'a', 'The height property sets the height of an element.', '2025-05-12 11:35:30'),
+(67, 11, 'What does the z-index property in CSS control?', 'The stack order of elements', 'The zoom level', 'The line spacing', 'The indentation', 'a', 'z-index controls the stack order of overlapping elements.', '2025-05-12 11:35:30'),
+(68, 11, 'Which of the following is the correct CSS syntax?', '{body:color=black;}', 'body:color=black;', 'body {color: black;}', '{body;color:black;}', 'c', 'Correct CSS syntax is selector {property: value;}', '2025-05-12 11:35:30'),
+(69, 11, 'Which unit is not relative in CSS?', 'em', '%', 'px', 'rem', 'c', 'px is an absolute unit; others are relative.', '2025-05-12 11:35:30'),
+(70, 11, 'Which property is used to create space inside an element’s border?', 'margin', 'padding', 'spacing', 'border-spacing', 'b', 'Padding creates space inside the border of an element.', '2025-05-12 11:35:30'),
+(71, 12, 'What does HTML stand for?', 'Hyperlinks and Text Markup Language', 'Hyper Text Markup Language', 'Home Tool Markup Language', 'Hyperlinking Text Method Language', 'b', 'HTML stands for Hyper Text Markup Language.', '2025-05-12 11:37:01'),
+(72, 12, 'Which of the following is a client-side scripting language?', 'PHP', 'Java', 'JavaScript', 'Python', 'c', 'JavaScript runs in the browser and is a client-side scripting language.', '2025-05-12 11:37:01'),
+(73, 12, 'Which HTTP method is used to submit form data?', 'GET', 'POST', 'PUT', 'DELETE', 'b', 'POST is used to send form data to the server securely.', '2025-05-12 11:37:01'),
+(74, 12, 'Which of the following is a popular frontend framework?', 'Django', 'Laravel', 'React', 'Node.js', 'c', 'React is a frontend JavaScript framework.', '2025-05-12 11:37:01'),
+(75, 12, 'What does CSS stand for?', 'Cascading Style Sheets', 'Colorful Style Syntax', 'Computer Style Sheets', 'Creative Style Structure', 'a', 'CSS stands for Cascading Style Sheets.', '2025-05-12 11:37:01'),
+(76, 12, 'Which tag is used to create a hyperlink in HTML?', '<hyper>', '<link>', '<a>', '<url>', 'c', 'The <a> tag is used to define hyperlinks.', '2025-05-12 11:37:01'),
+(77, 12, 'Which of the following is used to run JavaScript on the server side?', 'Angular', 'React', 'Node.js', 'Vue.js', 'c', 'Node.js allows JavaScript to run on the server.', '2025-05-12 11:37:01'),
+(78, 12, 'Which language is used to style web pages?', 'HTML', 'JQuery', 'CSS', 'XML', 'c', 'CSS is used to style the visual presentation of web pages.', '2025-05-12 11:37:01'),
+(79, 12, 'Which of the following is NOT a valid HTML5 element?', '<article>', '<footer>', '<main>', '<container>', 'd', '<container> is not a standard HTML5 element.', '2025-05-12 11:37:01'),
+(80, 12, 'What is the default port for HTTP?', '21', '25', '80', '443', 'c', 'Port 80 is the default for HTTP.', '2025-05-12 11:37:01'),
+(81, 19, 'What does IoT stand for?', 'Internet of Tools', 'Internet of Technology', 'Internet of Things', 'Internal Optical Technology', 'c', 'IoT stands for Internet of Things.', '2025-05-12 11:38:46'),
+(82, 19, 'Which of the following is a key characteristic of IoT devices?', 'Manual operation', 'Standalone functionality', 'Always connected to the internet', 'High data storage capacity', 'c', 'IoT devices are typically connected to the internet for data exchange.', '2025-05-12 11:38:46'),
+(83, 19, 'Which protocol is commonly used for IoT communication?', 'HTTP', 'FTP', 'MQTT', 'SMTP', 'c', 'MQTT is a lightweight messaging protocol widely used in IoT.', '2025-05-12 11:38:46'),
+(84, 19, 'Which of the following is a common IoT hardware platform?', 'Oracle', 'Raspberry Pi', 'Jenkins', 'Notepad++', 'b', 'Raspberry Pi is a low-cost hardware used in many IoT projects.', '2025-05-12 11:38:46'),
+(85, 19, 'Which network topology is commonly used in IoT applications?', 'Star', 'Bus', 'Mesh', 'Ring', 'c', 'Mesh topology allows devices to communicate directly and is efficient for IoT.', '2025-05-12 11:38:46'),
+(86, 19, 'Which layer in IoT architecture collects data from sensors?', 'Application Layer', 'Network Layer', 'Perception Layer', 'Transport Layer', 'c', 'The Perception Layer involves physical sensing and data collection.', '2025-05-12 11:38:46'),
+(87, 19, 'Which technology is often used for short-range communication in IoT?', 'Bluetooth', 'WiMAX', 'DSL', 'Satellite', 'a', 'Bluetooth is suitable for short-range communication in IoT.', '2025-05-12 11:38:46'),
+(88, 19, 'Which of the following is an example of an IoT application?', 'Online shopping', 'Remote patient monitoring', 'Digital marketing', 'Typing tutor', 'b', 'Remote patient monitoring is a healthcare IoT application.', '2025-05-12 11:38:46'),
+(89, 19, 'What is the function of an actuator in an IoT system?', 'To process data', 'To sense the environment', 'To transmit data', 'To perform actions based on data', 'd', 'Actuators carry out actions in response to data analysis.', '2025-05-12 11:38:46'),
+(90, 19, 'What does the term \"smart\" typically indicate in IoT?', 'Manual control', 'Offline functionality', 'Intelligent and connected', 'Power saving', 'c', 'In IoT, \"smart\" devices are connected and can respond intelligently.', '2025-05-12 11:38:46'),
+(91, 21, 'What is the primary goal of cybersecurity?', 'To prevent natural disasters', 'To protect data and systems from attacks', 'To increase internet speed', 'To improve hardware performance', 'b', 'Cybersecurity focuses on protecting data and systems from unauthorized access or attacks.', '2025-05-12 11:40:09'),
+(92, 21, 'Which of the following is a type of malware?', 'Firewall', 'Antivirus', 'Trojan horse', 'Captcha', 'c', 'Trojan horse is a type of malware disguised as legitimate software.', '2025-05-12 11:40:09'),
+(93, 21, 'What does a firewall do?', 'Detects viruses', 'Physically blocks network cables', 'Monitors and controls incoming and outgoing network traffic', 'Increases Wi-Fi range', 'c', 'A firewall filters traffic based on defined security rules.', '2025-05-12 11:40:09'),
+(94, 21, 'What is phishing?', 'A type of encryption', 'A method to speed up networks', 'A social engineering attack to steal sensitive info', 'A virus scanner', 'c', 'Phishing tricks users into giving away personal information.', '2025-05-12 11:40:09'),
+(95, 21, 'Which of these is a strong password?', '123456', 'password', 'MyDog123!', 'qwerty', 'c', 'A strong password includes a mix of letters, numbers, and symbols.', '2025-05-12 11:40:09'),
+(96, 21, 'What does two-factor authentication (2FA) mean?', 'Using one password', 'Using two browsers', 'Using two steps to verify identity', 'Logging in from two devices', 'c', '2FA requires two forms of verification for secure login.', '2025-05-12 11:40:09'),
+(97, 21, 'Which of the following helps protect against phishing attacks?', 'Ignoring email filters', 'Clicking unknown links', 'Verifying email sources', 'Using same password everywhere', 'c', 'Always verify email sources to avoid phishing.', '2025-05-12 11:40:09'),
+(98, 21, 'What is ransomware?', 'Software to clean junk files', 'Malware that demands payment', 'A type of firewall', 'A tool for data backup', 'b', 'Ransomware locks data and demands payment for release.', '2025-05-12 11:40:09'),
+(99, 21, 'Which of these is a best practice for cybersecurity?', 'Sharing passwords', 'Using default passwords', 'Regularly updating software', 'Ignoring system updates', 'c', 'Keeping software updated prevents known vulnerabilities.', '2025-05-12 11:40:09'),
+(100, 21, 'What is the full form of VPN?', 'Virtual Public Network', 'Verified Personal Network', 'Virtual Private Network', 'Very Protected Network', 'c', 'VPN stands for Virtual Private Network, used for secure internet access.', '2025-05-12 11:40:09');
 
 -- --------------------------------------------------------
 
@@ -346,7 +409,9 @@ CREATE TABLE `quiz_submissions` (
 
 INSERT INTO `quiz_submissions` (`id`, `quiz_id`, `student_id`, `score`, `submitted_at`) VALUES
 (8, 4, 19, 8, '2025-05-11 12:32:41'),
-(9, 5, 19, 5, '2025-05-11 12:34:51');
+(9, 5, 19, 5, '2025-05-11 12:34:51'),
+(12, 4, 23, 7, '2025-05-12 18:05:46'),
+(13, 5, 23, 5, '2025-05-12 19:10:56');
 
 -- --------------------------------------------------------
 
@@ -383,8 +448,11 @@ CREATE TABLE `study_plan` (
 
 INSERT INTO `study_plan` (`id`, `student_id`, `subject`, `task`, `datetime`, `completed`) VALUES
 (3, 19, 'Web-Developement', 'Create a small Project', '2025-05-06 11:00:00', 1),
-(4, 19, 'DBMS', 'Revised Normalisation', '2025-05-05 13:40:00', 0),
-(5, 19, 'java', 'JDBC description', '2025-05-07 14:00:00', 1);
+(4, 19, 'DBMS', 'Revised Normalisation', '2025-05-05 13:40:00', 1),
+(5, 19, 'java', 'JDBC description', '2025-05-07 14:00:00', 1),
+(6, 19, 'Cloud ', 'Deployment Model', '2025-05-12 18:00:00', 0),
+(7, 23, 'Web-Developement', 'Create a small Project', '2025-05-13 20:00:00', 0),
+(9, 23, 'DBMS', 'JDBC description', '2025-05-13 21:00:00', 0);
 
 -- --------------------------------------------------------
 
@@ -401,18 +469,20 @@ CREATE TABLE `users` (
   `image` varchar(200) NOT NULL,
   `otp` varchar(6) DEFAULT NULL,
   `otp_expires_at` datetime DEFAULT NULL,
-  `is_verified` tinyint(1) DEFAULT 0
+  `is_verified` tinyint(1) DEFAULT 0,
+  `status` enum('pending','approved','rejected') DEFAULT 'pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `password`, `role`, `image`, `otp`, `otp_expires_at`, `is_verified`) VALUES
-(19, 'Manas Ranjan Mohanta', 'ranjanmohantamanas1@gmail.com', '$2y$10$QAoyKquBVN.2nH8H/FsqOOno4kdzridBg4.ieirKAFz.GgYnT6zIa', 'student', 'uploads/6815bb070d59f.jpg', NULL, NULL, 1),
-(20, 'Satyaranjan Sahoo', 'sahoosatyaranjan998@gmail.com', '$2y$10$C9T.iplKCTjZ6BlZ3QjXleRksN67sPf3yq/pFykagITfN0n8Aqu9e', 'educator', 'uploads/6815bb7de6f98.jpeg', NULL, NULL, 1),
-(21, 'Hemanta', 'hemantamahanta2950@gmail.com', '$2y$10$zcHvhf1gwEo9h7Obo02YyeSPcdir/aRT2hRBtENvTMZPdu0Jg5P8y', 'educator', 'uploads/6815bff67213c.jpeg', NULL, NULL, 1),
-(22, 'Manas', 'lipunkumar805@gmail.com', '$2y$10$yK6W6.yvUa/S3CEc5qCn.u12eLAyaorii6W80zrBGyQtspBXymFF2', 'educator', 'uploads/6815c108d3b7c.jpeg', NULL, NULL, 1);
+INSERT INTO `users` (`id`, `name`, `email`, `password`, `role`, `image`, `otp`, `otp_expires_at`, `is_verified`, `status`) VALUES
+(19, 'Manas Ranjan Mohanta', 'ranjanmohantamanas1@gmail.com', '$2y$10$QAoyKquBVN.2nH8H/FsqOOno4kdzridBg4.ieirKAFz.GgYnT6zIa', 'student', 'uploads/6815bb070d59f.jpg', NULL, NULL, 1, 'pending'),
+(20, 'Satyaranjan Sahoo', 'sahoosatyaranjan998@gmail.com', '$2y$10$C9T.iplKCTjZ6BlZ3QjXleRksN67sPf3yq/pFykagITfN0n8Aqu9e', 'educator', 'uploads/6815bb7de6f98.jpeg', NULL, NULL, 1, 'approved'),
+(21, 'Hemanta', 'hemantamahanta2950@gmail.com', '$2y$10$zcHvhf1gwEo9h7Obo02YyeSPcdir/aRT2hRBtENvTMZPdu0Jg5P8y', 'educator', 'uploads/6815bff67213c.jpeg', NULL, NULL, 1, 'pending'),
+(22, 'Manas', 'lipunkumar805@gmail.com', '$2y$10$yK6W6.yvUa/S3CEc5qCn.u12eLAyaorii6W80zrBGyQtspBXymFF2', 'educator', 'uploads/6815c108d3b7c.jpeg', NULL, NULL, 1, 'pending'),
+(23, 'Satyaranjan Dash', 'satyaranjans859@gmail.com', '$2y$10$eKSVYzQBehtonQhxHq6OoOPIrOAB27rMENw0ijL7DmPO9NsYx/6Sy', 'student', 'uploads/6821e9f7463bc.jpg', NULL, NULL, 1, 'pending');
 
 --
 -- Indexes for dumped tables
@@ -552,7 +622,7 @@ ALTER TABLE `courses`
 -- AUTO_INCREMENT for table `enrollments`
 --
 ALTER TABLE `enrollments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `lectures`
@@ -564,7 +634,7 @@ ALTER TABLE `lectures`
 -- AUTO_INCREMENT for table `lecture_progress`
 --
 ALTER TABLE `lecture_progress`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `notifications`
@@ -576,19 +646,19 @@ ALTER TABLE `notifications`
 -- AUTO_INCREMENT for table `quizzes`
 --
 ALTER TABLE `quizzes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `quiz_questions`
 --
 ALTER TABLE `quiz_questions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
 
 --
 -- AUTO_INCREMENT for table `quiz_submissions`
 --
 ALTER TABLE `quiz_submissions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `ratings`
@@ -600,13 +670,13 @@ ALTER TABLE `ratings`
 -- AUTO_INCREMENT for table `study_plan`
 --
 ALTER TABLE `study_plan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- Constraints for dumped tables

@@ -41,6 +41,7 @@ $result = $stmt->get_result();
         <div id="quiz-management-area">
             <!-- Quiz management content will load here -->
         </div>
+        <br>
         <button class="btn btn-secondary" onclick="goBackToCourses()">Back to Courses</button>
     </div>
 </div>

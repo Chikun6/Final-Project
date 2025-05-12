@@ -15,10 +15,20 @@ $courses_query = $conn->query("SELECT COUNT(*) AS total FROM courses WHERE educa
 $total_courses = $courses_query->fetch_assoc()['total'] ?? 0;
 
 // Total Earnings (Assuming course price * enrollments)
-$earnings_query = $conn->query("SELECT SUM(c.price) AS total FROM enrollments e 
-                                INNER JOIN courses c ON e.course_id = c.id 
-                                WHERE c.educator_id = $educator_id");
+$earnings_query = $conn->query("
+    SELECT 
+        SUM(c.price - (c.price * IFNULL(c.discount, 0) / 100)) AS total 
+    FROM enrollments e 
+    INNER JOIN courses c ON e.course_id = c.id 
+    WHERE c.educator_id = $educator_id
+");
+
 $total_earnings = $earnings_query->fetch_assoc()['total'] ?? 0;
+
+// Round to 2 decimal places for better clarity
+$total_earnings = round($total_earnings, 2);
+
+
 
 // Recent Enrollments
 $recent_query = $conn->query("SELECT u.name, c.title, e.enrolled_at FROM enrollments e 

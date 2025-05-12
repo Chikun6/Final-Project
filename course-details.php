@@ -1,8 +1,7 @@
 <?php
 include 'db_connect.php';
-session_start(); // make sure this is at the top
-
-$course_id = $_GET['id'] ?? 0;  // ✅ Move this up
+session_start();
+$course_id = $_GET['id'] ?? 0; 
 $student_id = $_SESSION['user_id'] ?? 0;
 $enrolled = false;
 
@@ -167,14 +166,18 @@ $chapters_result = $chapters_query->get_result();
           <?php endif; ?>
         </div>
         
+        <!-- Enrollment Form -->
+        <?php if (!$enrolled):
+          $price = $course['price'];
+          $discount = !empty($course['discount']) ? $course['discount'] : 0;
+          $finalPrice = ($discount > 0) ? ($price - ($price * $discount / 100)) : $price;
+          ?>
+          <a href="javascript:void(0)" data-courseid="<?php echo $course_id;?>" data-coursename="<?php echo $course['title'];?>" data-amount="<?php echo $finalPrice;?>" class="btn btn-primary enrollNow">Enroll Now</a>
 
-        <!-- Enrollment Section -->
-        <?php if (!$enrolled): ?>
-          <button id="enroll-btn" class="btn btn-primary w-100" data-course-id="<?= $course_id ?>" data-amount="<?= $price ?>">Enroll Now</button>
         <?php else: ?>
-          <button class="btn btn-outline-success w-100" disabled>Already Enrolled - Watch Now</button>
+          <button class="btn btn-outline-success w-100" disabled>Already Enrolled</button>
         <?php endif; ?>
-
+      </div>
     </div>
 
     <!-- Right Panel: Video Player + Chapters & Lectures -->
@@ -244,6 +247,8 @@ $chapters_result = $chapters_query->get_result();
   </div>
 </div>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>
 function playLecture(videoPath) {
     const player = document.getElementById("videoPlayer");
@@ -251,6 +256,53 @@ function playLecture(videoPath) {
     player.load();
     player.play();
 }
+
+$(document).on('click', '.enrollNow', function () {
+    var button = $(this); // Save reference to clicked button
+
+    var amount = button.data("amount");
+    var courseId = button.data("courseid");
+    var courseName = button.data("coursename");
+
+    var options = {
+        "key": "rzp_test_QW4H9ul5UFkFhz", // Replace with your actual Razorpay Key
+        "amount": amount * 100, // Razorpay amount is in paise
+        "name": "SmartLearning",
+        "description": courseName,
+        "handler": function (response) {
+            var paymentId = response.razorpay_payment_id;
+
+            $.ajax({
+                url: "enroll-course.php",
+                type: "POST",
+                data: {
+                    course_id: courseId,
+                    payment_id: paymentId
+                },
+                success: function (resp) {
+                    console.log("Server Response:", resp);
+                    if (resp.trim() === 'done') {
+                        button.replaceWith('<button class="btn btn-outline-success w-100" disabled>Already Enrolled</button>');
+                    } else {
+                        alert("Something went wrong. Check console.");
+                        console.log(resp);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("AJAX Error:", error);
+                    alert("Something went wrong with the request.");
+                }
+            });
+        },
+        "theme": {
+            "color": "#0d6efd"
+        }
+    };
+
+    var rzp = new Razorpay(options);
+    rzp.open();
+});
+
 </script>
 
 <?php include 'footer.php'; ?>

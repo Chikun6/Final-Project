@@ -1,6 +1,7 @@
 <?php
 include './../../db_connect.php';
 
+$counter = 1;
 $quiz_id = $_GET['quiz_id'];
 $quiz = $conn->query("SELECT title FROM quizzes WHERE id = $quiz_id")->fetch_assoc();
 $questions = $conn->query("SELECT * FROM quiz_questions WHERE quiz_id = $quiz_id");
@@ -21,7 +22,7 @@ $questions = $conn->query("SELECT * FROM quiz_questions WHERE quiz_id = $quiz_id
         <tbody>
         <?php while ($row = $questions->fetch_assoc()): ?>
             <tr>
-                <td><?= htmlspecialchars($row['question_text']) ?></td>
+                <td><?= $counter++ ?>. <?= htmlspecialchars($row['question_text']) ?></td>
                 <td><?= $row['correct_option'] ?></td>
                 <td>
                     <button class="btn btn-warning btn-sm" onclick="editQuestion(<?= $row['id'] ?>)">Edit</button>
@@ -47,18 +48,38 @@ $questions = $conn->query("SELECT * FROM quiz_questions WHERE quiz_id = $quiz_id
         <div class="modal-body">
           <input type="hidden" name="quiz_id" id="quiz_id">
           <input type="hidden" name="question_id" id="question_id">
-          <div class="mb-2"><label>Question</label><textarea name="question_text" class="form-control" required></textarea></div>
-          <div class="mb-2"><label>Option A</label><input name="option_a" class="form-control" required></div>
-          <div class="mb-2"><label>Option B</label><input name="option_b" class="form-control" required></div>
-          <div class="mb-2"><label>Option C</label><input name="option_c" class="form-control" required></div>
-          <div class="mb-2"><label>Option D</label><input name="option_d" class="form-control" required></div>
+          <div class="mb-2">
+            <label>Question</label>
+            <textarea id="question_text" name="question_text" class="form-control" required></textarea>
+          </div>
+
+          <div class="mb-2">
+            <label>Option A</label>
+            <input id="option_a" name="option_a" class="form-control" required>
+          </div>
+
+          <div class="mb-2">
+            <label>Option B</label>
+            <input id="option_b" name="option_b" class="form-control" required>
+          </div>
+
+          <div class="mb-2">
+            <label>Option C</label>
+            <input id="option_c" name="option_c" class="form-control" required>
+          </div>
+
+          <div class="mb-2">
+            <label>Option D</label>
+            <input id="option_d" name="option_d" class="form-control" required>
+          </div>
+
           <div class="mb-2"><label>Correct Option</label>
-            <select name="correct_option" class="form-control" required>
+            <select name="correct_option" id = "correct_option" class="form-control" required>
               <option value="">Select</option>
               <option>A</option><option>B</option><option>C</option><option>D</option>
             </select>
           </div>
-          <div class="mb-2"><label>Explanation</label><textarea name="explanation" class="form-control"></textarea></div>
+          <div class="mb-2"><label>Explanation</label><textarea name="explanation" id = "explanation" class="form-control"></textarea></div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-primary" onclick="submitQuestion()">Save</button>

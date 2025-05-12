@@ -74,7 +74,7 @@ if (isset($_POST['name'], $_POST['email'], $_POST['password'], $_POST['role'])) 
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $mail->Port = 587;
 
-            $mail->setFrom('smartlearning@gmail.com', 'LMS System');
+            $mail->setFrom('smartlearning@gmail.com', 'Smart Learning');
             $mail->addAddress($email);
             $mail->Subject = 'OTP Verification';
             $mail->Body = "Your OTP is: $otp. It is valid for 30 minutes.";

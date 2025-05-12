@@ -6,6 +6,13 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'educator') {
     header("Location: ../index.php");
     exit();
 }
+$teacherId = $_SESSION['user_id'];
+$stmt = $conn->prepare("SELECT status FROM users WHERE id = ? AND role = 'educator'");
+$stmt->bind_param("i", $teacherId);
+$stmt->execute();
+$result = $stmt->get_result();
+$status = $result->fetch_assoc()['status'] ?? null;
+
 ?>
 
 <!DOCTYPE html>
@@ -14,6 +21,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'educator') {
     <meta charset="UTF-8">
     <title>Educator Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
     <style>
@@ -79,13 +87,31 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'educator') {
     </style>
 </head>
 <body>
+    <?php if ($status !== 'approved'){
+        ?>
+        <script>
+            Swal.fire({
+            icon: 'warning',
+            title: 'Approval Pending',
+            text: 'Your account is waiting for admin approval.',
+            confirmButtonText: 'OK',
+            grow: 'popup'
+        }).then(() => {
+            window.location.href = "../login.php?role=educator";
+        });
+        </script><?php
+    }
+
+?>
+    
+
 
 <div class="sidebar">
     <h2>SmartLearning</h2>
     <a data-page="dashboard" class="nav-link active"><i class="fas fa-tachometer-alt me-2"></i> Dashboard</a>
     <a data-page="add-course" class="nav-link"><i class="fas fa-plus-circle me-2"></i> Add Course</a>
     <a data-page="mycourses" class="nav-link"><i class="fas fa-book me-2"></i> My Courses</a>
-    <a data-page="quizzes" class="nav-link"><i class="fas fa-users me-2"></i>Manage Quizzes</a>
+    <a data-page="quizzes" class="nav-link"><i class="fas fa-book me-2"></i> Manage Quizzes</a>
     <a data-page="enrollments" class="nav-link"><i class="fas fa-users me-2"></i> Enrollments</a>
 </div>
 
@@ -104,6 +130,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'educator') {
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js"></script>
+<script src = "js/quiz.js"></script>
 <script>
     function loadPage(page) {
         $('.nav-link').removeClass('active');
@@ -130,33 +157,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'educator') {
             loadPage(page);
         });
     });
-    function submitQuestions() {
-  const form = document.getElementById('questionForm');
-
-  if (!form || form.tagName !== 'FORM') {
-    alert('Form not found or not a FORM element');
-    return;
-  }
-
-  const formData = new FormData(form);
-
-  fetch('includes/save-question.php', {
-    method: 'POST',
-    body: formData
-  })
-  .then(res => res.text())
-  .then(data => {
-    if (data.trim() === 'success') {
-      const quizId = document.getElementById('quiz_id').value;
-      bootstrap.Modal.getInstance(document.getElementById('questionModal')).hide();
-      loadQuizQuestions(quizId);
-    } else {
-      alert("Error saving question: " + data);
-    }
-  });
-}
-
 </script>
-<script src = "js/quiz.js"></script>
+
 </body>
 </html>

@@ -32,7 +32,7 @@ session_start();
 <header>
   <nav class="navbar navbar-expand-lg navbar-light fixed-top">
     <div class="container">
-      <a class="navbar-brand fw-bold" href="#">
+      <a class="navbar-brand fw-bold" href="index.php">
         <img src="./images/logoupdate.png" alt="Logo"> SmartLearning
       </a>
 
